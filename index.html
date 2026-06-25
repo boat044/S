@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบบันทึกเอกสาร | SM ออฟฟิศ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+  :root {
+    --navy:#1a2744;--navy-light:#243258;--teal:#0d7a6e;--teal-light:#12a898;
+    --teal-pale:#e8f7f5;--amber:#e8a020;--amber-light:#fdf3df;--red:#c0392b;
+    --red-light:#fdecea;--green:#1d8348;--green-light:#e9f7ef;
+    --grey-100:#f5f6f8;--grey-200:#eaecf0;--grey-300:#d0d5dd;
+    --grey-500:#8a94a6;--grey-700:#4a5568;--grey-900:#1a202c;--white:#ffffff;
+    --sidebar-w:240px;--header-h:60px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Sarabun',sans-serif;background:var(--grey-100);color:var(--grey-900);display:flex;height:100vh;overflow:hidden;font-size:14px;}
+
+  /* SIDEBAR */
+  #sidebar{width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto;}
+  .sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .sidebar-logo .brand{color:var(--teal-light);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;}
+  .sidebar-logo h2{color:white;font-size:16px;font-weight:600;margin-top:2px;}
+  .nav-section{padding:14px 12px 4px;}
+  .nav-section-label{color:rgba(255,255,255,0.35);font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:0 6px;margin-bottom:6px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.7);font-size:13.5px;font-weight:400;transition:background 0.15s,color 0.15s;margin-bottom:2px;}
+  .nav-item:hover{background:rgba(255,255,255,0.08);color:white;}
+  .nav-item.active{background:var(--teal);color:white;font-weight:600;}
+  .nav-item .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+  .nav-badge{margin-left:auto;background:var(--amber);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;}
+
+  /* DB status dot */
+  .db-status{display:flex;align-items:center;gap:6px;padding:10px 18px;font-size:11px;color:rgba(255,255,255,0.45);border-top:1px solid rgba(255,255,255,0.08);margin-top:auto;}
+  .db-dot{width:7px;height:7px;border-radius:50%;background:var(--grey-500);}
+  .db-dot.ok{background:#4caf50;}
+  .db-dot.err{background:var(--red);}
+  .db-dot.loading{background:var(--amber);animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* MAIN */
+  #main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  #topbar{height:var(--header-h);background:white;border-bottom:1px solid var(--grey-200);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
+  #page-title{font-size:17px;font-weight:700;color:var(--navy);flex:1;}
+  .topbar-actions{display:flex;gap:10px;align-items:center;}
+  .btn{padding:7px 16px;border-radius:8px;border:none;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:13px;font-weight:500;transition:all 0.15s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-primary{background:var(--teal);color:white;}
+  .btn-primary:hover{background:var(--teal-light);}
+  .btn-outline{background:white;color:var(--grey-700);border:1px solid var(--grey-300);}
+  .btn-outline:hover{background:var(--grey-100);}
+  .btn-green{background:var(--green);color:white;}
+  .btn-green:hover{filter:brightness(1.1);}
+  .btn-red{background:var(--red);color:white;}
+  .btn-red:hover{filter:brightness(1.1);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  #content{flex:1;overflow-y:auto;padding:24px;}
+
+  /* CONFIG BANNER */
+  .config-banner{background:var(--amber-light);border:1px solid var(--amber);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;gap:16px;align-items:flex-start;}
+  .config-banner h4{color:#7a4f00;font-size:14px;font-weight:700;margin-bottom:6px;}
+  .config-banner p{color:#7a4f00;font-size:12.5px;line-height:1.6;}
+  .config-input{width:100%;padding:6px 10px;border:1px solid var(--amber);border-radius:6px;font-family:'Sarabun',sans-serif;font-size:12.5px;background:white;margin-top:4px;outline:none;}
+  .config-input:focus{border-color:var(--teal);}
+
+  /* STAT */
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+  .stat-card{background:white;border-radius:12px;padding:18px 20px;border:1px solid var(--grey-200);position:relative;overflow:hidden;}
+  .stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;}
+  .stat-card.teal::before{background:var(--teal);}
+  .stat-card.amber::before{background:var(--amber);}
+  .stat-card.red::before{background:var(--red);}
+  .stat-card.green::before{background:var(--green);}
+  .stat-label{font-size:12px;color:var(--grey-500);font-weight:500;margin-bottom:6px;}
+  .stat-value{font-size:28px;font-weight:700;color:var(--navy);line-height:1;}
+  .stat-sub{font-size:12px;color:var(--grey-500);margin-top:4px;}
+
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .section-title{font-size:15px;font-weight:700;color:var(--navy);}
+
+  /* TABLE */
+  .table-wrap{background:white;border-radius:12px;border:1px solid var(--grey-200);overflow:hidden;}
+  .table-toolbar{padding:14px 18px;border-bottom:1px solid var(--grey-200);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .search-box{flex:1;min-width:200px;position:relative;}
+  .search-box input{width:100%;padding:7px 12px 7px 34px;border:1px solid var(--grey-300);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;outline:none;background:var(--grey-100);}
+  .search-box input:focus{border-color:var(--teal);background:white;}
+  .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--grey-500);}
+  .filter-select{padding:7px 12px;border:1px solid var(--grey-300);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13px;background:white;color:var(--grey-700);cursor:pointer;outline:none;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:.5px;background:var(--grey-100);border-bottom:1px solid var(--grey-200);white-space:nowrap;}
+  tbody tr{border-bottom:1px solid var(--grey-200);transition:background .1s;}
+  tbody tr:last-child{border-bottom:none;}
+  tbody tr:hover{background:var(--teal-pale);}
+  tbody td{padding:10px 14px;font-size:13px;vertical-align:middle;}
+  .empty-row td{text-align:center;color:var(--grey-500);padding:32px;font-size:13px;}
+
+  /* BADGE */
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+  .badge-green{background:var(--green-light);color:var(--green);}
+  .badge-amber{background:var(--amber-light);color:#b07000;}
+  .badge-red{background:var(--red-light);color:var(--red);}
+  .badge-grey{background:var(--grey-200);color:var(--grey-700);}
+  .badge-teal{background:var(--teal-pale);color:var(--teal);}
+
+  .action-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--grey-300);background:white;cursor:pointer;font-size:12px;color:var(--grey-700);font-family:'Sarabun',sans-serif;transition:all .1s;}
+  .action-btn:hover{background:var(--navy);color:white;border-color:var(--navy);}
+  .action-btn-del{padding:4px 8px;border-radius:6px;border:1px solid var(--red-light);background:var(--red-light);cursor:pointer;font-size:12px;color:var(--red);font-family:'Sarabun',sans-serif;transition:all .1s;margin-left:4px;}
+  .action-btn-del:hover{background:var(--red);color:white;}
+
+  .pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--grey-200);font-size:13px;color:var(--grey-500);}
+  .page-btns{display:flex;gap:4px;}
+  .page-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--grey-300);background:white;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .page-btn.active{background:var(--teal);color:white;border-color:var(--teal);}
+  .page-btn:hover:not(.active){background:var(--grey-100);}
+
+  /* TABS */
+  .tabs{display:flex;gap:0;border-bottom:2px solid var(--grey-200);margin-bottom:20px;}
+  .tab{padding:10px 18px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--grey-500);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap;}
+  .tab:hover{color:var(--teal);}
+  .tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:600;}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:1000;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:white;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+  .modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--grey-200);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:1;}
+  .modal-header h3{font-size:17px;font-weight:700;color:var(--navy);}
+  .modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--grey-500);line-height:1;padding:4px;}
+  .modal-body{padding:20px 24px;}
+  .modal-footer{padding:16px 24px;border-top:1px solid var(--grey-200);display:flex;gap:10px;justify-content:flex-end;}
+
+  /* FORM */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .form-group{display:flex;flex-direction:column;gap:5px;}
+  .form-group.span2{grid-column:span 2;}
+  label{font-size:12.5px;font-weight:600;color:var(--grey-700);}
+  label .req{color:var(--red);}
+  .form-control{padding:8px 12px;border:1px solid var(--grey-300);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13.5px;outline:none;transition:border-color .15s;background:white;}
+  .form-control:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,122,110,.1);}
+  .section-divider{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;padding:14px 0 10px;border-top:1px solid var(--grey-200);margin-top:8px;grid-column:span 2;}
+
+  /* DETAIL */
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .detail-item{display:flex;flex-direction:column;gap:2px;}
+  .detail-label{font-size:11px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:.5px;}
+  .detail-value{font-size:14px;color:var(--grey-900);font-weight:500;}
+
+  .alert{padding:12px 16px;border-radius:8px;font-size:13px;display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;}
+  .alert-info{background:#e8f4fd;color:#1565c0;}
+  .alert-warn{background:var(--amber-light);color:#7a4f00;}
+  .alert-err{background:var(--red-light);color:var(--red);}
+
+  /* MINI CARDS */
+  .mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+  .mini-card{background:white;border-radius:10px;padding:14px 16px;border:1px solid var(--grey-200);}
+  .mini-card-label{font-size:11.5px;color:var(--grey-500);font-weight:500;}
+  .mini-card-value{font-size:20px;font-weight:700;color:var(--navy);margin-top:2px;}
+
+  .vat-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .vat-table th{padding:7px 10px;background:var(--grey-100);color:var(--grey-500);font-size:11px;text-align:left;}
+  .vat-table td{padding:7px 10px;border-top:1px solid var(--grey-200);}
+
+  /* PAGES */
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* LOADING OVERLAY */
+  #loading-overlay{position:fixed;inset:0;background:rgba(26,39,68,.7);display:none;z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+  #loading-overlay.show{display:flex;}
+  .spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:var(--teal-light);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #loading-overlay p{color:white;font-size:14px;}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;padding:12px 20px;border-radius:10px;font-size:13px;z-index:3000;opacity:0;transition:opacity .3s;pointer-events:none;max-width:320px;}
+  #toast.show{opacity:1;}
+  #toast.toast-ok{background:var(--green);}
+  #toast.toast-err{background:var(--red);}
+
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--grey-300);border-radius:3px;}
+  @media(max-width:900px){#sidebar{display:none;}.stat-grid{grid-template-columns:repeat(2,1fr);}}
+  .text-right{text-align:right;}.fw600{font-weight:600;}.text-navy{color:var(--navy);}.text-teal{color:var(--teal);}.text-sm{font-size:12px;}.mb4{margin-bottom:4px;}.mt12{margin-top:12px;}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p id="loading-text">กำลังโหลด...</p>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">Accounting Office</div>
+    <h2>SM ออฟฟิศ</h2>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">หน้าหลัก</div>
+    <div class="nav-item active" onclick="showPage('dashboard')"><span class="icon">📊</span> ภาพรวม</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">ลูกค้า</div>
+    <div class="nav-item" onclick="showPage('customers')"><span class="icon">👥</span> รายชื่อลูกค้า</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">บันทึกเอกสาร</div>
+    <div class="nav-item" onclick="showPage('tax')"><span class="icon">📋</span> ภาษีหัก ณ ที่จ่าย</div>
+    <div class="nav-item" onclick="showPage('vat')"><span class="icon">🧾</span> ภพ.30 / VAT</div>
+    <div class="nav-item" onclick="showPage('followup')"><span class="icon">📅</span> ติดตามเอกสาร<span class="nav-badge" id="follow-badge">0</span></div>
+    <div class="nav-item" onclick="showPage('service')"><span class="icon">💰</span> ค่าบริการ / การเงิน</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">ระบบ</div>
+    <div class="nav-item" onclick="showPage('settings')"><span class="icon">⚙️</span> ตั้งค่า</div>
+  </div>
+  <div class="db-status">
+    <div class="db-dot loading" id="db-dot"></div>
+    <span id="db-label">กำลังเชื่อมต่อ...</span>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div id="page-title">ภาพรวมระบบ</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" id="btn-sync" onclick="syncFromSheets()" style="display:none">🔄 Sync จาก Sheets</button>
+      <button class="btn btn-outline" onclick="openAddModal()">➕ บันทึกใหม่</button>
+      <button class="btn btn-primary" onclick="showPage('customers')">📋 รายชื่อลูกค้า</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card teal"><div class="stat-label">ลูกค้าทั้งหมด</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub">รายในระบบ</div></div>
+        <div class="stat-card green"><div class="stat-label">ชำระเงินแล้ว</div><div class="stat-value" id="stat-paid">—</div><div class="stat-sub">ราย</div></div>
+        <div class="stat-card amber"><div class="stat-label">รอดำเนินการ</div><div class="stat-value" id="stat-wait">—</div><div class="stat-sub">ราย</div></div>
+        <div class="stat-card red"><div class="stat-label">เอกสารยังไม่มา</div><div class="stat-value" id="stat-missing">—</div><div class="stat-sub">รายการ</div></div>
+      </div>
+      <div class="section-header">
+        <div class="section-title">สถานะเอกสารล่าสุด</div>
+        <button class="btn btn-outline" onclick="showPage('customers')">ดูทั้งหมด →</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="dash-search" placeholder="ค้นหาลูกค้า..." oninput="renderDashTable()"></div>
+          <select class="filter-select" id="dash-filter" onchange="renderDashTable()">
+            <option value="">ทุกสถานะ</option>
+            <option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option>
+            <option value="wait">รอดำเนินการ</option>
+            <option value="ยื่นแล้วรอชำระ">ยื่นแล้วรอชำระ</option>
+          </select>
+        </div>
+        <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th>เอกสาร 30</th><th>VAT 12/68</th><th>ค่าบริการ</th><th>สถานะ</th><th></th></tr></thead>
+        <tbody id="dash-tbody"><tr class="empty-row"><td colspan="7">กำลังโหลดข้อมูล...</td></tr></tbody></table>
+        <div class="pagination"><span id="dash-count">—</span><div class="page-btns" id="dash-pages"></div></div>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="page" id="page-customers">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="cust-search" placeholder="ค้นหาชื่อ / รหัส / เลขทะเบียน..." oninput="renderCustomerTable()"></div>
+          <select class="filter-select" id="cust-type" onchange="renderCustomerTable()">
+            <option value="">ทุกประเภท</option>
+            <option value="SM-1">บุคคล (SM-1xx)</option>
+            <option value="SM-2">หจก. (SM-2xx)</option>
+            <option value="SM-3">บจ. (SM-3xx)</option>
+          </select>
+        </div>
+        <table><thead><tr><th>รหัส</th><th>เลขทะเบียน</th><th>ชื่อลูกค้า</th><th>เอกสาร หักณ</th><th>เอกสาร 30</th><th>ค่าทำบัญชี</th><th>ประกันสังคม</th><th>หมายเหตุ</th><th></th></tr></thead>
+        <tbody id="cust-tbody"></tbody></table>
+        <div class="pagination"><span id="cust-count">—</span><div class="page-btns" id="cust-pages"></div></div>
+      </div>
+    </div>
+
+    <!-- TAX -->
+    <div class="page" id="page-tax">
+      <div class="tabs">
+        <div class="tab active" onclick="setTaxTab('pnd1',this)">ภ.ง.ด.1</div>
+        <div class="tab" onclick="setTaxTab('pnd3p',this)">ภ.ง.ด.3 เราจ่าย</div>
+        <div class="tab" onclick="setTaxTab('pnd3c',this)">ภ.ง.ด.3 เก็บลูกค้า</div>
+        <div class="tab" onclick="setTaxTab('pnd53p',this)">ภ.ง.ด.53 เราจ่าย</div>
+        <div class="tab" onclick="setTaxTab('pnd53c',this)">ภ.ง.ด.53 เก็บลูกค้า</div>
+        <div class="tab" onclick="setTaxTab('filed',this)">ยื่นแบบ</div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="tax-search" placeholder="ค้นหา..." oninput="renderTaxTable()"></div></div>
+        <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th id="tax-col">ภ.ง.ด.1</th><th>สถานะ</th><th></th></tr></thead>
+        <tbody id="tax-tbody"></tbody></table>
+        <div class="pagination"><span id="tax-count">0 รายการ</span></div>
+      </div>
+    </div>
+
+    <!-- VAT -->
+    <div class="page" id="page-vat">
+      <div class="mini-cards">
+        <div class="mini-card"><div class="mini-card-label">ภพ.30 6/67 รวม</div><div class="mini-card-value" id="vat-67-6">—</div></div>
+        <div class="mini-card"><div class="mini-card-label">ภพ.30 3/68 รวม</div><div class="mini-card-value" id="vat-68-3">—</div></div>
+        <div class="mini-card"><div class="mini-card-label">ภพ.30 11/68 รวม</div><div class="mini-card-value" id="vat-68-11">—</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="vat-search" placeholder="ค้นหา..." oninput="renderVatTable()"></div>
+        </div>
+        <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th>ภพ.30 6/67</th><th>ภพ.30 3/68</th><th>ภพ.30 11/68</th><th>ภพ.30 12/68</th></tr></thead>
+        <tbody id="vat-tbody"></tbody></table>
+        <div class="pagination"><span id="vat-count">—</span><div class="page-btns" id="vat-pages"></div></div>
+      </div>
+    </div>
+
+    <!-- FOLLOWUP -->
+    <div class="page" id="page-followup">
+      <div class="alert alert-info">📌 บันทึกการติดตามเอกสาร — คลิกชื่อลูกค้าเพื่อแก้ไขสถานะ</div>
+      <div class="table-wrap">
+        <div class="table-toolbar"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="fu-search" placeholder="ค้นหา..." oninput="renderFollowTable()"></div></div>
+        <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th>13.8</th><th>14.8</th><th>16.9</th><th>14/10</th><th>9.12</th><th>16.1</th><th>20.1</th></tr></thead>
+        <tbody id="fu-tbody"></tbody></table>
+        <div class="pagination"><span id="fu-count">—</span><div class="page-btns" id="fu-pages"></div></div>
+      </div>
+    </div>
+
+    <!-- SERVICE -->
+    <div class="page" id="page-service">
+      <div class="mini-cards">
+        <div class="mini-card"><div class="mini-card-label">แพ็คแล้ว</div><div class="mini-card-value" id="svc-packed">—</div></div>
+        <div class="mini-card"><div class="mini-card-label">ชำระแล้ว</div><div class="mini-card-value" id="svc-paid">—</div></div>
+        <div class="mini-card"><div class="mini-card-label">รอชำระ</div><div class="mini-card-value" id="svc-pending">—</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="svc-search" placeholder="ค้นหา..." oninput="renderServiceTable()"></div>
+          <select class="filter-select" id="svc-filter" onchange="renderServiceTable()">
+            <option value="">ทุกสถานะ</option>
+            <option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option>
+            <option value="wait">รอดำเนินการ</option>
+            <option value="ยื่นแล้วรอชำระ">ยื่นแล้วรอชำระ</option>
+          </select>
+        </div>
+        <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th>ค่าทำบัญชี</th><th>ยื่น ภ.พ.30</th><th>สปส</th><th>ประกันสังคม</th><th>แพ็คเอกสาร</th><th>ค่าแรง</th><th>ค่าใช้จ่าย</th><th>สถานะ</th></tr></thead>
+        <tbody id="svc-tbody"></tbody></table>
+        <div class="pagination"><span id="svc-count">—</span><div class="page-btns" id="svc-pages"></div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div class="config-banner">
+        <div style="font-size:28px">⚙️</div>
+        <div style="flex:1">
+          <h4>ตั้งค่าการเชื่อมต่อ</h4>
+          <p>กรอก Google Apps Script Web App URL เพื่อ Sync ข้อมูลจาก Google Sheets เข้า Supabase</p>
+          <div style="margin-top:10px">
+            <label style="font-size:12px;font-weight:600;color:#7a4f00">Google Apps Script Web App URL</label>
+            <input class="config-input" id="cfg-sheets-url" placeholder="https://script.google.com/macros/s/xxx/exec" />
+          </div>
+          <div style="margin-top:8px">
+            <label style="font-size:12px;font-weight:600;color:#7a4f00">Supabase URL (ปรับได้ถ้าย้าย project)</label>
+            <input class="config-input" id="cfg-sb-url" value="https://xxxuowhvwyqxkuanydpy.supabase.co" />
+          </div>
+          <div style="margin-top:8px">
+            <label style="font-size:12px;font-weight:600;color:#7a4f00">Supabase Publishable Key</label>
+            <input class="config-input" id="cfg-sb-key" value="sb_publishable__QZPw3Cf5Nhh9cVc3ZftVA_bBl6du09" />
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="saveConfig()">💾 บันทึกการตั้งค่า</button>
+            <button class="btn btn-green" onclick="syncFromSheets()">🔄 Sync จาก Sheets ตอนนี้</button>
+            <button class="btn btn-outline" onclick="testConnection()">🔌 ทดสอบการเชื่อมต่อ</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:20px">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--grey-200)">
+          <div class="section-title">โครงสร้าง Header ใน Google Sheet</div>
+          <p style="font-size:12px;color:var(--grey-500);margin-top:4px">แถวแรกของ Sheet ต้องมี header ตามนี้ (ตัวพิมพ์เล็ก / ตามลำดับ)</p>
+        </div>
+        <div style="padding:16px 20px;font-family:monospace;font-size:12px;background:var(--grey-100);color:var(--navy);line-height:1.8;word-break:break-all">
+          code | taxid | name | hakna | doc30 | pnd1 | pnd3p | pnd3c | pnd53p | pnd53c | filed | vat67_6 | vat68_3 | vat68_11 | vat68_12 | fu_13_8 | fu_14_8 | fu_15_8 | fu_16_9 | fu_14_10 | fu_9_12 | fu_16_1 | fu_20_1 | accsvc | vatfile | sps | soc | pack | wage | expense | stock | note | status
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- MODAL: Add/Edit -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">บันทึกเอกสารใหม่</h3>
+      <button class="modal-close" onclick="closeModal('add-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>รหัสลูกค้า <span class="req">*</span></label><input class="form-control" id="f-code" placeholder="เช่น SM-201"></div>
+        <div class="form-group"><label>เลขทะเบียน</label><input class="form-control" id="f-taxid" placeholder="เลขประจำตัวผู้เสียภาษี"></div>
+        <div class="form-group span2"><label>ชื่อลูกค้า <span class="req">*</span></label><input class="form-control" id="f-name" placeholder="ชื่อเต็ม"></div>
+        <div class="section-divider">ข้อมูลเอกสาร</div>
+        <div class="form-group"><label>เอกสาร หักณ</label><select class="form-control" id="f-hakna"><option value="">-- เลือก --</option><option>มาแล้ว</option><option>ไม่มี</option><option>wait</option></select></div>
+        <div class="form-group"><label>เอกสาร 30</label><select class="form-control" id="f-doc30"><option value="">-- เลือก --</option><option>มาแล้ว</option><option>ไม่มี</option><option>wait</option></select></div>
+        <div class="section-divider">ภาษีหัก ณ ที่จ่าย</div>
+        <div class="form-group"><label>ภ.ง.ด.1</label><input class="form-control" id="f-pnd1" placeholder="0.00"></div>
+        <div class="form-group"><label>ภ.ง.ด.3 เราจ่าย</label><input class="form-control" id="f-pnd3p" placeholder="0.00"></div>
+        <div class="form-group"><label>ภ.ง.ด.3 เก็บลูกค้า</label><input class="form-control" id="f-pnd3c" placeholder="0.00"></div>
+        <div class="form-group"><label>ภ.ง.ด.53 เราจ่าย</label><input class="form-control" id="f-pnd53p" placeholder="0.00"></div>
+        <div class="form-group"><label>ภ.ง.ด.53 เก็บลูกค้า</label><input class="form-control" id="f-pnd53c" placeholder="0.00"></div>
+        <div class="form-group"><label>ยื่นแบบ</label><input class="form-control" id="f-filed" placeholder="วันที่ยื่น"></div>
+        <div class="section-divider">ภพ.30 / VAT</div>
+        <div class="form-group"><label>ภพ.30 6/67</label><input class="form-control" id="f-vat67" placeholder="0.00"></div>
+        <div class="form-group"><label>ภพ.30 3/68</label><input class="form-control" id="f-vat68m3" placeholder="0.00"></div>
+        <div class="form-group"><label>ภพ.30 11/68</label><input class="form-control" id="f-vat68m11" placeholder="0.00"></div>
+        <div class="form-group"><label>ภพ.30 12/68</label><input class="form-control" id="f-vat68m12" placeholder="0.00"></div>
+        <div class="section-divider">ค่าบริการ / การเงิน</div>
+        <div class="form-group"><label>ค่าทำบัญชี (บาท)</label><input class="form-control" id="f-accsvc" placeholder="0.00"></div>
+        <div class="form-group"><label>ยื่น ภ.พ.30</label><input class="form-control" id="f-vatfile" placeholder="วันที่"></div>
+        <div class="form-group"><label>สปส</label><input class="form-control" id="f-sps" placeholder="สถานะ/จำนวน"></div>
+        <div class="form-group"><label>ประกันสังคม</label><input class="form-control" id="f-soc" placeholder="0.00"></div>
+        <div class="form-group"><label>แพ็คเอกสาร</label><select class="form-control" id="f-pack"><option value="">-- เลือก --</option><option>แพ็คแล้ว</option><option>wait</option></select></div>
+        <div class="form-group"><label>ค่าแรง (บาท)</label><input class="form-control" id="f-wage" placeholder="0.00"></div>
+        <div class="form-group"><label>ค่าใช้จ่าย (บาท)</label><input class="form-control" id="f-expense" placeholder="0.00"></div>
+        <div class="form-group"><label>สต็อกสินค้า</label><input class="form-control" id="f-stock" placeholder="ข้อมูลสต็อก"></div>
+        <div class="form-group span2"><label>หมายเหตุ</label><textarea class="form-control" id="f-note" rows="2" placeholder="บันทึกเพิ่มเติม"></textarea></div>
+        <div class="section-divider">สถานะ</div>
+        <div class="form-group span2"><label>สถานะการชำระ</label>
+          <select class="form-control" id="f-status"><option value="wait">รอดำเนินการ</option><option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option><option value="ยื่นแล้วรอชำระ">ยื่นแล้วรอชำระ</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('add-modal')">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="saveRecord()" id="btn-save-record">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Detail -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="detail-title">รายละเอียดลูกค้า</h3>
+      <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-red" id="detail-del-btn">🗑 ลบ</button>
+      <button class="btn btn-outline" onclick="closeModal('detail-modal')">ปิด</button>
+      <button class="btn btn-primary" id="detail-edit-btn">✏️ แก้ไข</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
+const DEFAULT_CONFIG = {
+  sbUrl: 'https://xxxuowhvwyqxkuanydpy.supabase.co',
+  sbKey: 'sb_publishable__QZPw3Cf5Nhh9cVc3ZftVA_bBl6du09',
+  sheetsUrl: ''
+};
+
+function getConfig() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('sm_config') || '{}');
+    return { ...DEFAULT_CONFIG, ...saved };
+  } catch { return DEFAULT_CONFIG; }
+}
+function saveConfig() {
+  const cfg = {
+    sbUrl: document.getElementById('cfg-sb-url').value.trim(),
+    sbKey: document.getElementById('cfg-sb-key').value.trim(),
+    sheetsUrl: document.getElementById('cfg-sheets-url').value.trim()
+  };
+  localStorage.setItem('sm_config', JSON.stringify(cfg));
+  CONFIG = cfg;
+  updateSyncButton();
+  toast('บันทึกการตั้งค่าแล้ว ✓', 'ok');
+}
+
+let CONFIG = getConfig();
+
+// ─── SUPABASE ────────────────────────────────────────────────────────────────
+async function sbFetch(path, opts = {}) {
+  const cfg = getConfig();
+  const res = await fetch(cfg.sbUrl + path, {
+    ...opts,
+    headers: {
+      'apikey': cfg.sbKey,
+      'Authorization': 'Bearer ' + cfg.sbKey,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || '',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Supabase error ${res.status}: ${err}`);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : [];
+}
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+let records = [];
+
+async function loadData() {
+  setDbStatus('loading', 'กำลังโหลด...');
+  try {
+    const data = await sbFetch('/rest/v1/clients?select=*&order=code.asc&limit=500');
+    records = data;
+    setDbStatus('ok', `เชื่อมต่อแล้ว (${records.length} ราย)`);
+    renderAll();
+  } catch (e) {
+    setDbStatus('err', 'เชื่อมต่อไม่ได้');
+    toast('ไม่สามารถโหลดข้อมูลจาก Supabase: ' + e.message, 'err');
+    console.error(e);
+  }
+}
+
+async function upsertRecord(rec) {
+  return sbFetch('/rest/v1/clients', {
+    method: 'POST',
+    prefer: 'resolution=merge-duplicates,return=representation',
+    headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+    body: JSON.stringify(rec)
+  });
+}
+
+async function deleteRecord(id) {
+  return sbFetch(`/rest/v1/clients?id=eq.${id}`, { method: 'DELETE' });
+}
+
+// ─── SHEETS SYNC ─────────────────────────────────────────────────────────────
+// แปลง header ภาษาไทยใน Sheet → ชื่อ field ใน Supabase
+const HEADER_MAP = {
+  'รหัสลูกค้า':           'code',
+  'เลขทะเบียน':           'taxid',
+  'ชื่อลูกค้า':           'name',
+  'ตามเอกสาร หักณ':       'hakna',
+  'ตามเอกสาร 30':         'doc30',
+  'ภ.ง.ด.1':              'pnd1',
+  'ภ.ง.ด.3 เราจ่าย':      'pnd3p',
+  'ภ.ง.ด.3 เก็บลูกค้า':  'pnd3c',
+  'ภ.ง.ด.53 เราจ่าย':     'pnd53p',
+  'ภ.ง.ด.53 เก็บลูกค้า': 'pnd53c',
+  'ยื่นแบบ หักณที่จ่าย':  'filed',
+  'ภพ.30 6/67':           'vat67_6',
+  'ภพ.30 3/68':           'vat68_3',
+  'ภพ.30 11/68':          'vat68_11',
+  'ภพ.30 12/68':          'vat68_12',
+  'ตามงาน 13.8.68':       'fu_13_8',
+  'ตามงาน 14.8.68':       'fu_14_8',
+  'ตามงาน 15.8.68':       'fu_15_8',
+  'ตามงาน 18.8.68':       'fu_18_8',
+  'ตามงาน 19.8.68':       'fu_19_8',
+  'ตามงาน 16.9.68':       'fu_16_9',
+  'ตามงาน 17.9.68':       'fu_17_9',
+  'ตามงาน 18.9.68':       'fu_18_9',
+  'ตามงาน 22.9.68':       'fu_22_9',
+  'ตาม 14/10.68':         'fu_14_10',
+  'ตาม 17.10.68':         'fu_17_10',
+  'ตาม 20.10.68':         'fu_20_10',
+  '17.11.68':             'fu_17_11',
+  'ตาม 9.12.68':          'fu_9_12',
+  'ตาม 12.12.68':         'fu_12_12',
+  'ตาม 16.1.69':          'fu_16_1',
+  'ตาม 20.1.69':          'fu_20_1',
+  'ค่าทำบัญชี':           'accsvc',
+  'ยื่นแบบ ภ.พ.30':       'vatfile',
+  'ตามเอกสาร สปส':        'sps',
+  'ยื่นแบบประกันสังคม':   'soc',
+  'แพ็คเอกสาร':           'pack',
+  'อื่นๆ':                'other',
+  'ค่าแรง':               'wage',
+  'ค่าใช้จ่าย':           'expense',
+  'สต็อกสินค้า':          'stock',
+  'หมายเหตุ':             'note',
+};
+
+function mapSheetRow(rawRow) {
+  // rawRow มี key เป็น header ภาษาไทย → แปลงเป็น field ภาษาอังกฤษ
+  const mapped = {};
+  Object.entries(rawRow).forEach(([thKey, val]) => {
+    const thTrimmed = thKey.trim();
+    const field = HEADER_MAP[thTrimmed];
+    if (field) {
+      mapped[field] = (val === '' || val === null || val === undefined) ? null : String(val).trim();
+    }
+    // ช่องว่าง / column ไม่รู้จัก → ข้าม
+  });
+  if (!mapped.status) mapped.status = 'wait';
+  return mapped;
+}
+
+async function syncFromSheets() {
+  const cfg = getConfig();
+  if (!cfg.sheetsUrl) {
+    toast('กรุณากรอก Google Apps Script URL ในหน้า ตั้งค่า ก่อน', 'err');
+    showPage('settings');
+    return;
+  }
+  showLoading('กำลัง Sync จาก Google Sheets...');
+  try {
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(cfg.sheetsUrl);
+    const res = await fetch(proxyUrl);
+    const json = await res.json();
+    const rows = JSON.parse(json.contents);
+    if (!Array.isArray(rows) || rows.length === 0) throw new Error('ไม่มีข้อมูลจาก Sheets');
+
+    const mapped = rows
+      .map(r => mapSheetRow(r))
+      .filter(r => r.code && r.name); // ต้องมีรหัสและชื่อ
+
+    let count = 0;
+    const BATCH = 50;
+    for (let i = 0; i < mapped.length; i += BATCH) {
+      const batch = mapped.slice(i, i + BATCH);
+      await sbFetch('/rest/v1/clients', {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+        prefer: 'resolution=merge-duplicates,return=minimal',
+        body: JSON.stringify(batch)
+      });
+      count += batch.length;
+      document.getElementById('loading-text').textContent = `Sync แล้ว ${count} / ${mapped.length} ราย...`;
+    }
+    hideLoading();
+    toast(`Sync สำเร็จ! ${count} รายการ ✓`, 'ok');
+    await loadData();
+  } catch (e) {
+    hideLoading();
+    toast('Sync ล้มเหลว: ' + e.message, 'err');
+    console.error(e);
+  }
+}
+
+async function testConnection() {
+  showLoading('ทดสอบการเชื่อมต่อ...');
+  try {
+    const data = await sbFetch('/rest/v1/clients?select=count&limit=1');
+    hideLoading();
+    toast('เชื่อมต่อ Supabase สำเร็จ ✓', 'ok');
+  } catch (e) {
+    hideLoading();
+    toast('เชื่อมต่อ Supabase ไม่ได้: ' + e.message, 'err');
+  }
+}
+
+// ─── UI HELPERS ──────────────────────────────────────────────────────────────
+function setDbStatus(state, text) {
+  const dot = document.getElementById('db-dot');
+  dot.className = 'db-dot ' + state;
+  document.getElementById('db-label').textContent = text;
+}
+function showLoading(text = 'กำลังดำเนินการ...') {
+  document.getElementById('loading-text').textContent = text;
+  document.getElementById('loading-overlay').classList.add('show');
+}
+function hideLoading() { document.getElementById('loading-overlay').classList.remove('show'); }
+
+let toastTimer;
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (type === 'ok' ? ' toast-ok' : type === 'err' ? ' toast-err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function updateSyncButton() {
+  const cfg = getConfig();
+  document.getElementById('btn-sync').style.display = cfg.sheetsUrl ? 'inline-flex' : 'none';
+}
+
+// ─── BADGES ──────────────────────────────────────────────────────────────────
+function statusBadge(s) {
+  if (!s || s === 'wait') return `<span class="badge badge-amber">⏳ รอดำเนินการ</span>`;
+  if (s === 'ชำระเงินแล้ว') return `<span class="badge badge-green">✅ ชำระแล้ว</span>`;
+  if (s === 'ยื่นแล้วรอชำระ') return `<span class="badge badge-teal">📤 รอชำระ</span>`;
+  return `<span class="badge badge-grey">${s}</span>`;
+}
+function docBadge(v) {
+  if (!v || v === '' || v === 'wait') return `<span class="badge badge-amber">รอ</span>`;
+  if (v === 'มาแล้ว' || v.includes('มาแล้ว')) return `<span class="badge badge-green">✓ มาแล้ว</span>`;
+  if (v === 'ไม่มี') return `<span class="badge badge-grey">ไม่มี</span>`;
+  return `<span class="badge badge-grey">${v}</span>`;
+}
+function vatFmt(v) {
+  if (v === '' || v === undefined || v === null) return `<span class="text-sm" style="color:var(--grey-300)">—</span>`;
+  const n = parseFloat(v);
+  if (isNaN(n)) return `<span class="text-sm" style="color:var(--grey-500)">${v}</span>`;
+  const col = n < 0 ? 'color:var(--red)' : 'color:var(--teal)';
+  return `<span style="${col};font-weight:500">${n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;
+}
+function fuBadge(v) {
+  if (!v || v === '') return `<span style="color:var(--grey-300)">—</span>`;
+  if (/\/6[89]/.test(v)) return `<span class="badge badge-green" style="font-size:10px">${v}</span>`;
+  if (v.includes('ยังไม่มา')) return `<span class="badge badge-red" style="font-size:10px">ยังไม่มา</span>`;
+  if (v.includes('อยู่') || v.includes('นัด') || v.includes('ในตะกร้า')) return `<span class="badge badge-amber" style="font-size:10px">${v.substring(0,10)}</span>`;
+  return `<span class="text-sm">${v.substring(0,12)}</span>`;
+}
+
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+const PAGE_SIZE = 20;
+const titles = {dashboard:'ภาพรวมระบบ',customers:'รายชื่อลูกค้า',tax:'ภาษีหัก ณ ที่จ่าย',vat:'ภพ.30 / VAT',followup:'ติดตามเอกสาร',service:'ค่าบริการ / การเงิน',settings:'ตั้งค่า'};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = document.querySelector(`[onclick="showPage('${id}')"]`);
+  if (nav) nav.classList.add('active');
+  document.getElementById('page-title').textContent = titles[id] || id;
+  if (id === 'settings') loadConfigUI();
+  const renders = {dashboard:renderDashTable,customers:renderCustomerTable,tax:renderTaxTable,vat:renderVatTable,followup:renderFollowTable,service:renderServiceTable};
+  if (renders[id]) renders[id]();
+}
+
+function loadConfigUI() {
+  const cfg = getConfig();
+  document.getElementById('cfg-sb-url').value = cfg.sbUrl;
+  document.getElementById('cfg-sb-key').value = cfg.sbKey;
+  document.getElementById('cfg-sheets-url').value = cfg.sheetsUrl || '';
+}
+
+function renderAll() {
+  renderDashTable();
+}
+
+// ─── DASHBOARD ───────────────────────────────────────────────────────────────
+let dashPage = 1;
+function renderDashTable() {
+  const q = (document.getElementById('dash-search')?.value || '').toLowerCase();
+  const f = document.getElementById('dash-filter')?.value || '';
+  const filtered = records.filter(r =>
+    ((r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q)) &&
+    (!f || r.status === f || (f === 'wait' && (!r.status || r.status === 'wait')))
+  );
+  const pages = Math.ceil(filtered.length / PAGE_SIZE);
+  const slice = filtered.slice((dashPage-1)*PAGE_SIZE, dashPage*PAGE_SIZE);
+  const tbody = document.getElementById('dash-tbody');
+  if (!slice.length) { tbody.innerHTML = `<tr class="empty-row"><td colspan="7">ไม่พบข้อมูล</td></tr>`; }
+  else {
+    tbody.innerHTML = slice.map(r => `
+      <tr>
+        <td class="fw600 text-navy">${r.code||''}</td>
+        <td>${r.name||''}</td>
+        <td>${docBadge(r.doc30)}</td>
+        <td>${vatFmt(r.vat68_12)}</td>
+        <td>${r.accsvc ? `<b>${Number(r.accsvc).toLocaleString()}</b>` : '—'}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td>
+      </tr>`).join('');
+  }
+  document.getElementById('dash-count').textContent = `แสดง ${slice.length} จาก ${filtered.length} รายการ`;
+  renderPages('dash-pages', pages, dashPage, p => { dashPage=p; renderDashTable(); });
+  // stats
+  document.getElementById('stat-total').textContent = records.length;
+  document.getElementById('stat-paid').textContent = records.filter(r => r.status === 'ชำระเงินแล้ว').length;
+  document.getElementById('stat-wait').textContent = records.filter(r => !r.status || r.status === 'wait').length;
+  const missing = records.reduce((a,r) => a + ['fu_13_8','fu_14_8','fu_16_9','fu_14_10','fu_9_12'].filter(k => r[k] === 'ยังไม่มา').length, 0);
+  document.getElementById('stat-missing').textContent = missing;
+  document.getElementById('follow-badge').textContent = records.filter(r => !r.status || r.status === 'wait').length;
+}
+
+// ─── CUSTOMERS ───────────────────────────────────────────────────────────────
+let custPage = 1;
+function renderCustomerTable() {
+  const q = (document.getElementById('cust-search')?.value || '').toLowerCase();
+  const type = document.getElementById('cust-type')?.value || '';
+  const filtered = records.filter(r => {
+    const mq = !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q) || (r.taxid||'').includes(q);
+    const mt = !type || (r.code||'').startsWith(type);
+    return mq && mt;
+  });
+  const pages = Math.ceil(filtered.length / PAGE_SIZE);
+  const slice = filtered.slice((custPage-1)*PAGE_SIZE, custPage*PAGE_SIZE);
+  document.getElementById('cust-tbody').innerHTML = slice.length
+    ? slice.map(r => `
+      <tr>
+        <td class="fw600 text-teal">${r.code||''}</td>
+        <td class="text-sm" style="color:var(--grey-500)">${r.taxid||'—'}</td>
+        <td style="max-width:240px">${r.name||''}</td>
+        <td>${docBadge(r.hakna)}</td>
+        <td>${docBadge(r.doc30)}</td>
+        <td>${r.accsvc ? `${Number(r.accsvc).toLocaleString()} ฿` : '—'}</td>
+        <td>${r.soc ? `${Number(r.soc).toLocaleString()} ฿` : '—'}</td>
+        <td class="text-sm" style="color:var(--grey-500);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.note||'—'}</td>
+        <td><button class="action-btn" onclick="showDetail('${r.id}')">รายละเอียด</button></td>
+      </tr>`).join('')
+    : `<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('cust-count').textContent = `${filtered.length} รายการ`;
+  renderPages('cust-pages', pages, custPage, p => { custPage=p; renderCustomerTable(); });
+}
+
+// ─── TAX ─────────────────────────────────────────────────────────────────────
+let taxTab = 'pnd1';
+const taxLabels = {pnd1:'ภ.ง.ด.1',pnd3p:'ภ.ง.ด.3 เราจ่าย',pnd3c:'ภ.ง.ด.3 เก็บลูกค้า',pnd53p:'ภ.ง.ด.53 เราจ่าย',pnd53c:'ภ.ง.ด.53 เก็บลูกค้า',filed:'ยื่นแบบ'};
+function setTaxTab(t, el) {
+  taxTab = t;
+  document.querySelectorAll('#page-tax .tab').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tax-col').textContent = taxLabels[t];
+  renderTaxTable();
+}
+function renderTaxTable() {
+  const q = (document.getElementById('tax-search')?.value || '').toLowerCase();
+  const filtered = records.filter(r => {
+    const v = r[taxTab];
+    return v !== '' && v !== undefined && v !== null && v !== 'wait' &&
+      (!q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
+  });
+  document.getElementById('tax-tbody').innerHTML = filtered.length
+    ? filtered.map(r => `
+      <tr>
+        <td class="fw600">${r.code||''}</td>
+        <td>${r.name||''}</td>
+        <td>${vatFmt(r[taxTab])}</td>
+        <td>${statusBadge(r.status)}</td>
+        <td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td>
+      </tr>`).join('')
+    : `<tr class="empty-row"><td colspan="5">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('tax-count').textContent = `${filtered.length} รายการ`;
+}
+
+// ─── VAT ─────────────────────────────────────────────────────────────────────
+let vatPage = 1;
+function renderVatTable() {
+  const q = (document.getElementById('vat-search')?.value || '').toLowerCase();
+  const filtered = records.filter(r => !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
+  const pages = Math.ceil(filtered.length / PAGE_SIZE);
+  const slice = filtered.slice((vatPage-1)*PAGE_SIZE, vatPage*PAGE_SIZE);
+  document.getElementById('vat-tbody').innerHTML = slice.length
+    ? slice.map(r => `
+      <tr>
+        <td class="fw600">${r.code||''}</td>
+        <td>${r.name||''}</td>
+        <td>${vatFmt(r.vat67_6)}</td>
+        <td>${vatFmt(r.vat68_3)}</td>
+        <td>${vatFmt(r.vat68_11)}</td>
+        <td>${vatFmt(r.vat68_12)}</td>
+      </tr>`).join('')
+    : `<tr class="empty-row"><td colspan="6">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('vat-count').textContent = `${filtered.length} รายการ`;
+  renderPages('vat-pages', pages, vatPage, p => { vatPage=p; renderVatTable(); });
+  ['vat67_6','vat68_3','vat68_11'].forEach((k,i) => {
+    const ids = ['vat-67-6','vat-68-3','vat-68-11'];
+    const total = records.filter(r => parseFloat(r[k])).reduce((a,r) => a + parseFloat(r[k]), 0);
+    document.getElementById(ids[i]).textContent = total.toLocaleString('th-TH',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' ฿';
+  });
+}
+
+// ─── FOLLOWUP ────────────────────────────────────────────────────────────────
+let fuPage = 1;
+function renderFollowTable() {
+  const q = (document.getElementById('fu-search')?.value || '').toLowerCase();
+  const filtered = records.filter(r => !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
+  const pages = Math.ceil(filtered.length / PAGE_SIZE);
+  const slice = filtered.slice((fuPage-1)*PAGE_SIZE, fuPage*PAGE_SIZE);
+  document.getElementById('fu-tbody').innerHTML = slice.length
+    ? slice.map(r => `
+      <tr>
+        <td class="fw600">${r.code||''}</td>
+        <td style="max-width:200px">${r.name||''}</td>
+        <td>${fuBadge(r.fu_13_8)}</td>
+        <td>${fuBadge(r.fu_14_8)}</td>
+        <td>${fuBadge(r.fu_16_9)}</td>
+        <td>${fuBadge(r.fu_14_10)}</td>
+        <td>${fuBadge(r.fu_9_12)}</td>
+        <td>${fuBadge(r.fu_16_1)}</td>
+        <td>${fuBadge(r.fu_20_1)}</td>
+      </tr>`).join('')
+    : `<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('fu-count').textContent = `${filtered.length} รายการ`;
+  renderPages('fu-pages', pages, fuPage, p => { fuPage=p; renderFollowTable(); });
+}
+
+// ─── SERVICE ─────────────────────────────────────────────────────────────────
+let svcPage = 1;
+function renderServiceTable() {
+  const q = (document.getElementById('svc-search')?.value || '').toLowerCase();
+  const f = document.getElementById('svc-filter')?.value || '';
+  const filtered = records.filter(r =>
+    (!q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q)) &&
+    (!f || r.status === f || (f === 'wait' && (!r.status || r.status === 'wait')))
+  );
+  const pages = Math.ceil(filtered.length / PAGE_SIZE);
+  const slice = filtered.slice((svcPage-1)*PAGE_SIZE, svcPage*PAGE_SIZE);
+  document.getElementById('svc-tbody').innerHTML = slice.length
+    ? slice.map(r => `
+      <tr>
+        <td class="fw600">${r.code||''}</td>
+        <td>${r.name||''}</td>
+        <td>${r.accsvc ? `<b>${Number(r.accsvc).toLocaleString()}</b>` : '—'}</td>
+        <td>${r.vatfile||'—'}</td>
+        <td>${r.sps||'—'}</td>
+        <td>${r.soc ? Number(r.soc).toLocaleString() : '—'}</td>
+        <td>${r.pack ? `<span class="badge ${r.pack==='แพ็คแล้ว'?'badge-green':'badge-amber'}">${r.pack}</span>` : '—'}</td>
+        <td>${r.wage && r.wage !== 'wait' ? r.wage : '—'}</td>
+        <td>${r.expense && r.expense !== 'wait' ? r.expense : '—'}</td>
+        <td>${statusBadge(r.status)}</td>
+      </tr>`).join('')
+    : `<tr class="empty-row"><td colspan="10">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('svc-count').textContent = `${filtered.length} รายการ`;
+  renderPages('svc-pages', pages, svcPage, p => { svcPage=p; renderServiceTable(); });
+  document.getElementById('svc-packed').textContent = records.filter(r => r.pack === 'แพ็คแล้ว').length;
+  document.getElementById('svc-paid').textContent = records.filter(r => r.status === 'ชำระเงินแล้ว').length;
+  document.getElementById('svc-pending').textContent = records.filter(r => r.status === 'ยื่นแล้วรอชำระ').length;
+}
+
+// ─── PAGES ───────────────────────────────────────────────────────────────────
+function renderPages(id, total, current, cb) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let html = '';
+  const max = Math.min(total, 8);
+  for (let i = 1; i <= max; i++) {
+    html += `<button class="page-btn ${i===current?'active':''}" onclick="(${cb.toString()})(${i})">${i}</button>`;
+  }
+  el.innerHTML = html;
+}
+
+// ─── DETAIL MODAL ─────────────────────────────────────────────────────────────
+function showDetail(id) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('detail-title').textContent = `${r.code} — ${r.name}`;
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-grid mb4">
+      <div class="detail-item"><div class="detail-label">รหัส</div><div class="detail-value">${r.code||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">เลขทะเบียน</div><div class="detail-value">${r.taxid||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">เอกสาร หักณ</div><div class="detail-value">${docBadge(r.hakna)}</div></div>
+      <div class="detail-item"><div class="detail-label">เอกสาร 30</div><div class="detail-value">${docBadge(r.doc30)}</div></div>
+    </div>
+    <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 8px">ภาษีหัก ณ ที่จ่าย</div>
+    <div class="detail-grid mb4">
+      <div class="detail-item"><div class="detail-label">ภ.ง.ด.1</div><div class="detail-value">${r.pnd1||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ภ.ง.ด.3 เราจ่าย</div><div class="detail-value">${r.pnd3p||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ภ.ง.ด.3 เก็บลูกค้า</div><div class="detail-value">${r.pnd3c||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ภ.ง.ด.53 เราจ่าย</div><div class="detail-value">${r.pnd53p||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ภ.ง.ด.53 เก็บลูกค้า</div><div class="detail-value">${r.pnd53c||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ยื่นแบบ</div><div class="detail-value">${r.filed||'—'}</div></div>
+    </div>
+    <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 8px">ภพ.30 / VAT</div>
+    <table class="vat-table mt12">
+      <thead><tr><th>งวด</th><th class="text-right">ยอด VAT</th></tr></thead>
+      <tbody>
+        <tr><td>ภพ.30 6/67</td><td class="text-right">${vatFmt(r.vat67_6)}</td></tr>
+        <tr><td>ภพ.30 3/68</td><td class="text-right">${vatFmt(r.vat68_3)}</td></tr>
+        <tr><td>ภพ.30 11/68</td><td class="text-right">${vatFmt(r.vat68_11)}</td></tr>
+        <tr><td>ภพ.30 12/68</td><td class="text-right">${vatFmt(r.vat68_12)}</td></tr>
+      </tbody>
+    </table>
+    <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:14px 0 8px">ค่าบริการ / การเงิน</div>
+    <div class="detail-grid mb4">
+      <div class="detail-item"><div class="detail-label">ค่าทำบัญชี</div><div class="detail-value">${r.accsvc ? Number(r.accsvc).toLocaleString()+' ฿' : '—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ยื่น ภ.พ.30</div><div class="detail-value">${r.vatfile||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">สปส</div><div class="detail-value">${r.sps||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ประกันสังคม</div><div class="detail-value">${r.soc ? Number(r.soc).toLocaleString()+' ฿' : '—'}</div></div>
+      <div class="detail-item"><div class="detail-label">แพ็คเอกสาร</div><div class="detail-value">${r.pack||'—'}</div></div>
+    </div>
+    <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 8px">สถานะ</div>
+    ${statusBadge(r.status)}
+    ${r.note ? `<div class="alert alert-warn mt12">📝 ${r.note}</div>` : ''}
+  `;
+  document.getElementById('detail-edit-btn').onclick = () => { closeModal('detail-modal'); openEditModal(id); };
+  document.getElementById('detail-del-btn').onclick = () => confirmDelete(id, r.name);
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function confirmDelete(id, name) {
+  if (!confirm(`ลบ "${name}" ออกจากระบบ?\n\nข้อมูลจะถูกลบจาก Supabase ถาวร`)) return;
+  closeModal('detail-modal');
+  deleteRecord(id)
+    .then(() => {
+      records = records.filter(r => r.id !== id);
+      toast('ลบข้อมูลแล้ว ✓');
+      renderAll();
+    })
+    .catch(e => toast('ลบไม่ได้: ' + e.message, 'err'));
+}
+
+// ─── ADD/EDIT ─────────────────────────────────────────────────────────────────
+let editId = null;
+const FIELD_MAP = {code:'f-code',taxid:'f-taxid',name:'f-name',hakna:'f-hakna',doc30:'f-doc30',pnd1:'f-pnd1',pnd3p:'f-pnd3p',pnd3c:'f-pnd3c',pnd53p:'f-pnd53p',pnd53c:'f-pnd53c',filed:'f-filed',vat67_6:'f-vat67',vat68_3:'f-vat68m3',vat68_11:'f-vat68m11',vat68_12:'f-vat68m12',accsvc:'f-accsvc',vatfile:'f-vatfile',sps:'f-sps',soc:'f-soc',pack:'f-pack',wage:'f-wage',expense:'f-expense',stock:'f-stock',note:'f-note',status:'f-status'};
+
+function openAddModal() {
+  editId = null;
+  document.getElementById('modal-title').textContent = 'บันทึกเอกสารใหม่';
+  Object.values(FIELD_MAP).forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('f-status').value = 'wait';
+  document.getElementById('add-modal').classList.add('open');
+}
+function openEditModal(id) {
+  editId = id;
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('modal-title').textContent = `แก้ไข — ${r.code}`;
+  Object.entries(FIELD_MAP).forEach(([k, fid]) => {
+    const el = document.getElementById(fid);
+    if (el) el.value = r[k] || '';
+  });
+  document.getElementById('add-modal').classList.add('open');
+}
+
+async function saveRecord() {
+  const get = id => (document.getElementById(id)||{}).value || '';
+  const rec = {};
+  Object.entries(FIELD_MAP).forEach(([k, fid]) => { rec[k] = get(fid) || null; });
+  if (!rec.code || !rec.name) { toast('กรุณากรอกรหัสและชื่อลูกค้า', 'err'); return; }
+  if (!rec.status) rec.status = 'wait';
+  if (editId) rec.id = editId;
+
+  const btn = document.getElementById('btn-save-record');
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังบันทึก...';
+  try {
+    const result = await upsertRecord(rec);
+    const saved = Array.isArray(result) ? result[0] : result;
+    if (editId) {
+      const idx = records.findIndex(r => r.id === editId);
+      if (idx >= 0) records[idx] = saved;
+    } else {
+      records.push(saved);
+    }
+    closeModal('add-modal');
+    toast('บันทึกแล้ว ✓', 'ok');
+    renderAll();
+  } catch (e) {
+    toast('บันทึกไม่ได้: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 บันทึก';
+  }
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+updateSyncButton();
+loadData();
+</script>
+</body>
+</html>
