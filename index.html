@@ -16,8 +16,6 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Sarabun',sans-serif;background:var(--grey-100);color:var(--grey-900);display:flex;height:100vh;overflow:hidden;font-size:14px;}
-
-  /* SIDEBAR */
   #sidebar{width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto;}
   .sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,0.08);}
   .sidebar-logo .brand{color:var(--teal-light);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;}
@@ -29,16 +27,12 @@
   .nav-item.active{background:var(--teal);color:white;font-weight:600;}
   .nav-item .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
   .nav-badge{margin-left:auto;background:var(--amber);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;}
-
-  /* DB status dot */
   .db-status{display:flex;align-items:center;gap:6px;padding:10px 18px;font-size:11px;color:rgba(255,255,255,0.45);border-top:1px solid rgba(255,255,255,0.08);margin-top:auto;}
   .db-dot{width:7px;height:7px;border-radius:50%;background:var(--grey-500);}
   .db-dot.ok{background:#4caf50;}
   .db-dot.err{background:var(--red);}
   .db-dot.loading{background:var(--amber);animation:pulse 1s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-  /* MAIN */
   #main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
   #topbar{height:var(--header-h);background:white;border-bottom:1px solid var(--grey-200);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
   #page-title{font-size:17px;font-weight:700;color:var(--navy);flex:1;}
@@ -53,17 +47,12 @@
   .btn-red{background:var(--red);color:white;}
   .btn-red:hover{filter:brightness(1.1);}
   .btn:disabled{opacity:.5;cursor:not-allowed;}
-
   #content{flex:1;overflow-y:auto;padding:24px;}
-
-  /* CONFIG BANNER */
   .config-banner{background:var(--amber-light);border:1px solid var(--amber);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;gap:16px;align-items:flex-start;}
   .config-banner h4{color:#7a4f00;font-size:14px;font-weight:700;margin-bottom:6px;}
   .config-banner p{color:#7a4f00;font-size:12.5px;line-height:1.6;}
   .config-input{width:100%;padding:6px 10px;border:1px solid var(--amber);border-radius:6px;font-family:'Sarabun',sans-serif;font-size:12.5px;background:white;margin-top:4px;outline:none;}
   .config-input:focus{border-color:var(--teal);}
-
-  /* STAT */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
   .stat-card{background:white;border-radius:12px;padding:18px 20px;border:1px solid var(--grey-200);position:relative;overflow:hidden;}
   .stat-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;}
@@ -74,11 +63,8 @@
   .stat-label{font-size:12px;color:var(--grey-500);font-weight:500;margin-bottom:6px;}
   .stat-value{font-size:28px;font-weight:700;color:var(--navy);line-height:1;}
   .stat-sub{font-size:12px;color:var(--grey-500);margin-top:4px;}
-
   .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
   .section-title{font-size:15px;font-weight:700;color:var(--navy);}
-
-  /* TABLE */
   .table-wrap{background:white;border-radius:12px;border:1px solid var(--grey-200);overflow:hidden;}
   .table-toolbar{padding:14px 18px;border-bottom:1px solid var(--grey-200);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
   .search-box{flex:1;min-width:200px;position:relative;}
@@ -93,33 +79,25 @@
   tbody tr:hover{background:var(--teal-pale);}
   tbody td{padding:10px 14px;font-size:13px;vertical-align:middle;}
   .empty-row td{text-align:center;color:var(--grey-500);padding:32px;font-size:13px;}
-
-  /* BADGE */
   .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
   .badge-green{background:var(--green-light);color:var(--green);}
   .badge-amber{background:var(--amber-light);color:#b07000;}
   .badge-red{background:var(--red-light);color:var(--red);}
   .badge-grey{background:var(--grey-200);color:var(--grey-700);}
   .badge-teal{background:var(--teal-pale);color:var(--teal);}
-
   .action-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--grey-300);background:white;cursor:pointer;font-size:12px;color:var(--grey-700);font-family:'Sarabun',sans-serif;transition:all .1s;}
   .action-btn:hover{background:var(--navy);color:white;border-color:var(--navy);}
   .action-btn-del{padding:4px 8px;border-radius:6px;border:1px solid var(--red-light);background:var(--red-light);cursor:pointer;font-size:12px;color:var(--red);font-family:'Sarabun',sans-serif;transition:all .1s;margin-left:4px;}
   .action-btn-del:hover{background:var(--red);color:white;}
-
   .pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--grey-200);font-size:13px;color:var(--grey-500);}
   .page-btns{display:flex;gap:4px;}
   .page-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--grey-300);background:white;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
   .page-btn.active{background:var(--teal);color:white;border-color:var(--teal);}
   .page-btn:hover:not(.active){background:var(--grey-100);}
-
-  /* TABS */
   .tabs{display:flex;gap:0;border-bottom:2px solid var(--grey-200);margin-bottom:20px;}
   .tab{padding:10px 18px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--grey-500);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap;}
   .tab:hover{color:var(--teal);}
   .tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:600;}
-
-  /* MODAL */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:1000;align-items:center;justify-content:center;padding:20px;}
   .modal-overlay.open{display:flex;}
   .modal{background:white;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
@@ -128,8 +106,6 @@
   .modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--grey-500);line-height:1;padding:4px;}
   .modal-body{padding:20px 24px;}
   .modal-footer{padding:16px 24px;border-top:1px solid var(--grey-200);display:flex;gap:10px;justify-content:flex-end;}
-
-  /* FORM */
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .form-group{display:flex;flex-direction:column;gap:5px;}
   .form-group.span2{grid-column:span 2;}
@@ -138,45 +114,32 @@
   .form-control{padding:8px 12px;border:1px solid var(--grey-300);border-radius:8px;font-family:'Sarabun',sans-serif;font-size:13.5px;outline:none;transition:border-color .15s;background:white;}
   .form-control:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,122,110,.1);}
   .section-divider{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.8px;padding:14px 0 10px;border-top:1px solid var(--grey-200);margin-top:8px;grid-column:span 2;}
-
-  /* DETAIL */
   .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .detail-item{display:flex;flex-direction:column;gap:2px;}
   .detail-label{font-size:11px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:.5px;}
   .detail-value{font-size:14px;color:var(--grey-900);font-weight:500;}
-
   .alert{padding:12px 16px;border-radius:8px;font-size:13px;display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;}
   .alert-info{background:#e8f4fd;color:#1565c0;}
   .alert-warn{background:var(--amber-light);color:#7a4f00;}
   .alert-err{background:var(--red-light);color:var(--red);}
-
-  /* MINI CARDS */
   .mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
   .mini-card{background:white;border-radius:10px;padding:14px 16px;border:1px solid var(--grey-200);}
   .mini-card-label{font-size:11.5px;color:var(--grey-500);font-weight:500;}
   .mini-card-value{font-size:20px;font-weight:700;color:var(--navy);margin-top:2px;}
-
   .vat-table{width:100%;border-collapse:collapse;font-size:13px;}
   .vat-table th{padding:7px 10px;background:var(--grey-100);color:var(--grey-500);font-size:11px;text-align:left;}
   .vat-table td{padding:7px 10px;border-top:1px solid var(--grey-200);}
-
-  /* PAGES */
   .page{display:none;}
   .page.active{display:block;}
-
-  /* LOADING OVERLAY */
   #loading-overlay{position:fixed;inset:0;background:rgba(26,39,68,.7);display:none;z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
   #loading-overlay.show{display:flex;}
   .spinner{width:40px;height:40px;border:4px solid rgba(255,255,255,.3);border-top-color:var(--teal-light);border-radius:50%;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg)}}
   #loading-overlay p{color:white;font-size:14px;}
-
-  /* TOAST */
   #toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;padding:12px 20px;border-radius:10px;font-size:13px;z-index:3000;opacity:0;transition:opacity .3s;pointer-events:none;max-width:320px;}
   #toast.show{opacity:1;}
   #toast.toast-ok{background:var(--green);}
   #toast.toast-err{background:var(--red);}
-
   ::-webkit-scrollbar{width:6px;height:6px;}
   ::-webkit-scrollbar-track{background:transparent;}
   ::-webkit-scrollbar-thumb{background:var(--grey-300);border-radius:3px;}
@@ -186,16 +149,12 @@
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loading-overlay">
   <div class="spinner"></div>
   <p id="loading-text">กำลังโหลด...</p>
 </div>
-
-<!-- TOAST -->
 <div id="toast"></div>
 
-<!-- SIDEBAR -->
 <nav id="sidebar">
   <div class="sidebar-logo">
     <div class="brand">Accounting Office</div>
@@ -226,7 +185,6 @@
   </div>
 </nav>
 
-<!-- MAIN -->
 <div id="main">
   <div id="topbar">
     <div id="page-title">ภาพรวมระบบ</div>
@@ -311,9 +269,7 @@
         <div class="mini-card"><div class="mini-card-label">ภพ.30 11/68 รวม</div><div class="mini-card-value" id="vat-68-11">—</div></div>
       </div>
       <div class="table-wrap">
-        <div class="table-toolbar">
-          <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="vat-search" placeholder="ค้นหา..." oninput="renderVatTable()"></div>
-        </div>
+        <div class="table-toolbar"><div class="search-box"><span class="search-icon">🔍</span><input type="text" id="vat-search" placeholder="ค้นหา..." oninput="renderVatTable()"></div></div>
         <table><thead><tr><th>รหัส</th><th>ชื่อลูกค้า</th><th>ภพ.30 6/67</th><th>ภพ.30 3/68</th><th>ภพ.30 11/68</th><th>ภพ.30 12/68</th></tr></thead>
         <tbody id="vat-tbody"></tbody></table>
         <div class="pagination"><span id="vat-count">—</span><div class="page-btns" id="vat-pages"></div></div>
@@ -366,7 +322,7 @@
             <input class="config-input" id="cfg-sheets-url" placeholder="https://script.google.com/macros/s/xxx/exec" />
           </div>
           <div style="margin-top:8px">
-            <label style="font-size:12px;font-weight:600;color:#7a4f00">Supabase URL (ปรับได้ถ้าย้าย project)</label>
+            <label style="font-size:12px;font-weight:600;color:#7a4f00">Supabase URL</label>
             <input class="config-input" id="cfg-sb-url" value="https://xxxuowhvwyqxkuanydpy.supabase.co" />
           </div>
           <div style="margin-top:8px">
@@ -380,20 +336,34 @@
           </div>
         </div>
       </div>
-
       <div class="table-wrap" style="margin-top:20px">
         <div style="padding:16px 20px;border-bottom:1px solid var(--grey-200)">
-          <div class="section-title">โครงสร้าง Header ใน Google Sheet</div>
-          <p style="font-size:12px;color:var(--grey-500);margin-top:4px">แถวแรกของ Sheet ต้องมี header ตามนี้ (ตัวพิมพ์เล็ก / ตามลำดับ)</p>
+          <div class="section-title">Apps Script ที่ต้องใช้ (copy วางใน Google Apps Script)</div>
+          <p style="font-size:12px;color:var(--grey-500);margin-top:4px">Deploy เป็น Web App → Execute as: Me → Access: Anyone</p>
         </div>
-        <div style="padding:16px 20px;font-family:monospace;font-size:12px;background:var(--grey-100);color:var(--navy);line-height:1.8;word-break:break-all">
-          code | taxid | name | hakna | doc30 | pnd1 | pnd3p | pnd3c | pnd53p | pnd53c | filed | vat67_6 | vat68_3 | vat68_11 | vat68_12 | fu_13_8 | fu_14_8 | fu_15_8 | fu_16_9 | fu_14_10 | fu_9_12 | fu_16_1 | fu_20_1 | accsvc | vatfile | sps | soc | pack | wage | expense | stock | note | status
-        </div>
+        <div style="padding:16px 20px;font-family:monospace;font-size:12px;background:var(--grey-100);color:var(--navy);line-height:1.8;white-space:pre-wrap">function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  var headers = rows[0].map(function(h){ return String(h).trim(); });
+  var data = rows.slice(1).map(function(row){
+    var obj = {};
+    headers.forEach(function(h,i){ obj[h] = row[i] === '' ? null : String(row[i]); });
+    return obj;
+  });
+  var cb = e && e.parameter && e.parameter.callback;
+  var json = JSON.stringify(data);
+  if (cb) {
+    return ContentService.createTextOutput(cb + '(' + json + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return ContentService.createTextOutput(json)
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
       </div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
+  </div>
+</div>
 
 <!-- MODAL: Add/Edit -->
 <div class="modal-overlay" id="add-modal">
@@ -462,18 +432,15 @@
 </div>
 
 <script>
-// ─── CONFIG ─────────────────────────────────────────────────────────────────
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
 const DEFAULT_CONFIG = {
   sbUrl: 'https://xxxuowhvwyqxkuanydpy.supabase.co',
   sbKey: 'sb_publishable__QZPw3Cf5Nhh9cVc3ZftVA_bBl6du09',
   sheetsUrl: ''
 };
-
 function getConfig() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('sm_config') || '{}');
-    return { ...DEFAULT_CONFIG, ...saved };
-  } catch { return DEFAULT_CONFIG; }
+  try { const s = JSON.parse(localStorage.getItem('sm_config')||'{}'); return {...DEFAULT_CONFIG,...s}; }
+  catch { return DEFAULT_CONFIG; }
 }
 function saveConfig() {
   const cfg = {
@@ -482,459 +449,262 @@ function saveConfig() {
     sheetsUrl: document.getElementById('cfg-sheets-url').value.trim()
   };
   localStorage.setItem('sm_config', JSON.stringify(cfg));
-  CONFIG = cfg;
-  updateSyncButton();
-  toast('บันทึกการตั้งค่าแล้ว ✓', 'ok');
+  CONFIG = cfg; updateSyncButton();
+  toast('บันทึกการตั้งค่าแล้ว ✓','ok');
 }
-
 let CONFIG = getConfig();
 
 // ─── SUPABASE ────────────────────────────────────────────────────────────────
-async function sbFetch(path, opts = {}) {
+async function sbFetch(path, opts={}) {
   const cfg = getConfig();
-  const res = await fetch(cfg.sbUrl + path, {
+  const res = await fetch(cfg.sbUrl+path, {
     ...opts,
     headers: {
       'apikey': cfg.sbKey,
-      'Authorization': 'Bearer ' + cfg.sbKey,
+      'Authorization': 'Bearer '+cfg.sbKey,
       'Content-Type': 'application/json',
-      'Prefer': opts.prefer || '',
-      ...(opts.headers || {})
+      ...(opts.headers||{})
     }
   });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Supabase error ${res.status}: ${err}`);
-  }
-  const text = await res.text();
-  return text ? JSON.parse(text) : [];
+  if (!res.ok) { const e=await res.text(); throw new Error(`Supabase ${res.status}: ${e}`); }
+  const t = await res.text();
+  return t ? JSON.parse(t) : [];
 }
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
 let records = [];
-
 async function loadData() {
-  setDbStatus('loading', 'กำลังโหลด...');
+  setDbStatus('loading','กำลังโหลด...');
   try {
-    const data = await sbFetch('/rest/v1/clients?select=*&order=code.asc&limit=500');
-    records = data;
-    setDbStatus('ok', `เชื่อมต่อแล้ว (${records.length} ราย)`);
+    records = await sbFetch('/rest/v1/clients?select=*&order=code.asc&limit=500');
+    setDbStatus('ok',`เชื่อมต่อแล้ว (${records.length} ราย)`);
     renderAll();
-  } catch (e) {
-    setDbStatus('err', 'เชื่อมต่อไม่ได้');
-    toast('ไม่สามารถโหลดข้อมูลจาก Supabase: ' + e.message, 'err');
-    console.error(e);
+  } catch(e) {
+    setDbStatus('err','เชื่อมต่อไม่ได้');
+    toast('โหลดไม่ได้: '+e.message,'err');
   }
 }
-
 async function upsertRecord(rec) {
   return sbFetch('/rest/v1/clients', {
-    method: 'POST',
-    prefer: 'resolution=merge-duplicates,return=representation',
-    headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+    method:'POST',
+    headers:{'Prefer':'resolution=merge-duplicates,return=representation'},
     body: JSON.stringify(rec)
   });
 }
-
 async function deleteRecord(id) {
-  return sbFetch(`/rest/v1/clients?id=eq.${id}`, { method: 'DELETE' });
+  return sbFetch(`/rest/v1/clients?id=eq.${id}`,{method:'DELETE'});
 }
 
-// ─── SHEETS SYNC ─────────────────────────────────────────────────────────────
-// แปลง header ภาษาไทยใน Sheet → ชื่อ field ใน Supabase
+// ─── JSONP Sync (แก้ CORS) ──────────────────────────────────────────────────
+function jsonpFetch(url) {
+  return new Promise((resolve, reject) => {
+    const cbName = '_jsonp_' + Date.now();
+    const script = document.createElement('script');
+    const timer = setTimeout(() => {
+      cleanup(); reject(new Error('JSONP timeout'));
+    }, 15000);
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = function(data) { cleanup(); resolve(data); };
+    script.onerror = function() { cleanup(); reject(new Error('JSONP load error')); };
+    script.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cbName;
+    document.head.appendChild(script);
+  });
+}
+
 const HEADER_MAP = {
-  'รหัสลูกค้า':           'code',
-  'เลขทะเบียน':           'taxid',
-  'ชื่อลูกค้า':           'name',
-  'ตามเอกสาร หักณ':       'hakna',
-  'ตามเอกสาร 30':         'doc30',
-  'ภ.ง.ด.1':              'pnd1',
-  'ภ.ง.ด.3 เราจ่าย':      'pnd3p',
-  'ภ.ง.ด.3 เก็บลูกค้า':  'pnd3c',
-  'ภ.ง.ด.53 เราจ่าย':     'pnd53p',
-  'ภ.ง.ด.53 เก็บลูกค้า': 'pnd53c',
-  'ยื่นแบบ หักณที่จ่าย':  'filed',
-  'ภพ.30 6/67':           'vat67_6',
-  'ภพ.30 3/68':           'vat68_3',
-  'ภพ.30 11/68':          'vat68_11',
-  'ภพ.30 12/68':          'vat68_12',
-  'ตามงาน 13.8.68':       'fu_13_8',
-  'ตามงาน 14.8.68':       'fu_14_8',
-  'ตามงาน 15.8.68':       'fu_15_8',
-  'ตามงาน 18.8.68':       'fu_18_8',
-  'ตามงาน 19.8.68':       'fu_19_8',
-  'ตามงาน 16.9.68':       'fu_16_9',
-  'ตามงาน 17.9.68':       'fu_17_9',
-  'ตามงาน 18.9.68':       'fu_18_9',
-  'ตามงาน 22.9.68':       'fu_22_9',
-  'ตาม 14/10.68':         'fu_14_10',
-  'ตาม 17.10.68':         'fu_17_10',
-  'ตาม 20.10.68':         'fu_20_10',
-  '17.11.68':             'fu_17_11',
-  'ตาม 9.12.68':          'fu_9_12',
-  'ตาม 12.12.68':         'fu_12_12',
-  'ตาม 16.1.69':          'fu_16_1',
-  'ตาม 20.1.69':          'fu_20_1',
-  'ค่าทำบัญชี':           'accsvc',
-  'ยื่นแบบ ภ.พ.30':       'vatfile',
-  'ตามเอกสาร สปส':        'sps',
-  'ยื่นแบบประกันสังคม':   'soc',
-  'แพ็คเอกสาร':           'pack',
-  'อื่นๆ':                'other',
-  'ค่าแรง':               'wage',
-  'ค่าใช้จ่าย':           'expense',
-  'สต็อกสินค้า':          'stock',
-  'หมายเหตุ':             'note',
+  'รหัสลูกค้า':'code','เลขทะเบียน':'taxid','ชื่อลูกค้า':'name',
+  'ตามเอกสาร หักณ':'hakna','ตามเอกสาร 30':'doc30',
+  'ภ.ง.ด.1':'pnd1','ภ.ง.ด.3 เราจ่าย':'pnd3p','ภ.ง.ด.3 เก็บลูกค้า':'pnd3c',
+  'ภ.ง.ด.53 เราจ่าย':'pnd53p','ภ.ง.ด.53 เก็บลูกค้า':'pnd53c',
+  'ยื่นแบบ หักณที่จ่าย':'filed',
+  'ภพ.30 6/67':'vat67_6','ภพ.30 3/68':'vat68_3','ภพ.30 11/68':'vat68_11','ภพ.30 12/68':'vat68_12',
+  'ตามงาน 13.8.68':'fu_13_8','ตามงาน 14.8.68':'fu_14_8','ตามงาน 15.8.68':'fu_15_8',
+  'ตามงาน 18.8.68':'fu_18_8','ตามงาน 19.8.68':'fu_19_8',
+  'ตามงาน 16.9.68':'fu_16_9','ตามงาน 17.9.68':'fu_17_9','ตามงาน 18.9.68':'fu_18_9','ตามงาน 22.9.68':'fu_22_9',
+  'ตาม 14/10.68':'fu_14_10','ตาม 17.10.68':'fu_17_10','ตาม 20.10.68':'fu_20_10',
+  '17.11.68':'fu_17_11','ตาม 9.12.68':'fu_9_12','ตาม 12.12.68':'fu_12_12',
+  'ตาม 16.1.69':'fu_16_1','ตาม 20.1.69':'fu_20_1',
+  'ค่าทำบัญชี':'accsvc','ยื่นแบบ ภ.พ.30':'vatfile',
+  'ตามเอกสาร สปส':'sps','ยื่นแบบประกันสังคม':'soc',
+  'แพ็คเอกสาร':'pack','อื่นๆ':'other','ค่าแรง':'wage','ค่าใช้จ่าย':'expense',
+  'สต็อกสินค้า':'stock','หมายเหตุ':'note'
 };
 
-function mapSheetRow(rawRow) {
-  // rawRow มี key เป็น header ภาษาไทย → แปลงเป็น field ภาษาอังกฤษ
-  const mapped = {};
-  Object.entries(rawRow).forEach(([thKey, val]) => {
-    const thTrimmed = thKey.trim();
-    const field = HEADER_MAP[thTrimmed];
-    if (field) {
-      mapped[field] = (val === '' || val === null || val === undefined) ? null : String(val).trim();
-    }
-    // ช่องว่าง / column ไม่รู้จัก → ข้าม
+function mapSheetRow(raw) {
+  const m = {};
+  Object.entries(raw).forEach(([k,v]) => {
+    const f = HEADER_MAP[k.trim()];
+    if (f) m[f] = (v===''||v===null||v===undefined) ? null : String(v).trim();
   });
-  if (!mapped.status) mapped.status = 'wait';
-  return mapped;
+  if (!m.status) m.status = 'wait';
+  return m;
 }
 
 async function syncFromSheets() {
   const cfg = getConfig();
-  if (!cfg.sheetsUrl) {
-    toast('กรุณากรอก Google Apps Script URL ในหน้า ตั้งค่า ก่อน', 'err');
-    showPage('settings');
-    return;
-  }
+  if (!cfg.sheetsUrl) { toast('กรุณากรอก Apps Script URL ในหน้า ตั้งค่า ก่อน','err'); showPage('settings'); return; }
   showLoading('กำลัง Sync จาก Google Sheets...');
   try {
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(cfg.sheetsUrl);
-    const res = await fetch(proxyUrl);
-    const rows = await res.json();
-    if (!Array.isArray(rows) || rows.length === 0) throw new Error('ไม่มีข้อมูลจาก Sheets');
-
-    const mapped = rows
-      .map(r => mapSheetRow(r))
-      .filter(r => r.code && r.name); // ต้องมีรหัสและชื่อ
-
-    let count = 0;
-    const BATCH = 50;
-    for (let i = 0; i < mapped.length; i += BATCH) {
-      const batch = mapped.slice(i, i + BATCH);
-      await sbFetch('/rest/v1/clients', {
-        method: 'POST',
-        headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
-        prefer: 'resolution=merge-duplicates,return=minimal',
-        body: JSON.stringify(batch)
+    const rows = await jsonpFetch(cfg.sheetsUrl);
+    if (!Array.isArray(rows)||rows.length===0) throw new Error('ไม่มีข้อมูลจาก Sheets');
+    const mapped = rows.map(mapSheetRow).filter(r=>r.code&&r.name);
+    let count=0;
+    for (let i=0;i<mapped.length;i+=50) {
+      const batch=mapped.slice(i,i+50);
+      await sbFetch('/rest/v1/clients',{
+        method:'POST',
+        headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
+        body:JSON.stringify(batch)
       });
-      count += batch.length;
-      document.getElementById('loading-text').textContent = `Sync แล้ว ${count} / ${mapped.length} ราย...`;
+      count+=batch.length;
+      document.getElementById('loading-text').textContent=`Sync แล้ว ${count}/${mapped.length} ราย...`;
     }
     hideLoading();
-    toast(`Sync สำเร็จ! ${count} รายการ ✓`, 'ok');
+    toast(`Sync สำเร็จ! ${count} รายการ ✓`,'ok');
     await loadData();
-  } catch (e) {
+  } catch(e) {
     hideLoading();
-    toast('Sync ล้มเหลว: ' + e.message, 'err');
+    toast('Sync ล้มเหลว: '+e.message,'err');
     console.error(e);
   }
 }
 
 async function testConnection() {
   showLoading('ทดสอบการเชื่อมต่อ...');
-  try {
-    const data = await sbFetch('/rest/v1/clients?select=count&limit=1');
-    hideLoading();
-    toast('เชื่อมต่อ Supabase สำเร็จ ✓', 'ok');
-  } catch (e) {
-    hideLoading();
-    toast('เชื่อมต่อ Supabase ไม่ได้: ' + e.message, 'err');
-  }
+  try { await sbFetch('/rest/v1/clients?select=count&limit=1'); hideLoading(); toast('เชื่อมต่อ Supabase สำเร็จ ✓','ok'); }
+  catch(e) { hideLoading(); toast('เชื่อมต่อไม่ได้: '+e.message,'err'); }
 }
 
 // ─── UI HELPERS ──────────────────────────────────────────────────────────────
-function setDbStatus(state, text) {
-  const dot = document.getElementById('db-dot');
-  dot.className = 'db-dot ' + state;
-  document.getElementById('db-label').textContent = text;
-}
-function showLoading(text = 'กำลังดำเนินการ...') {
-  document.getElementById('loading-text').textContent = text;
-  document.getElementById('loading-overlay').classList.add('show');
-}
-function hideLoading() { document.getElementById('loading-overlay').classList.remove('show'); }
-
+function setDbStatus(s,t){document.getElementById('db-dot').className='db-dot '+s;document.getElementById('db-label').textContent=t;}
+function showLoading(t='กำลังดำเนินการ...'){document.getElementById('loading-text').textContent=t;document.getElementById('loading-overlay').classList.add('show');}
+function hideLoading(){document.getElementById('loading-overlay').classList.remove('show');}
 let toastTimer;
-function toast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'show' + (type === 'ok' ? ' toast-ok' : type === 'err' ? ' toast-err' : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
-}
-
-function updateSyncButton() {
-  const cfg = getConfig();
-  document.getElementById('btn-sync').style.display = cfg.sheetsUrl ? 'inline-flex' : 'none';
-}
+function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='show'+(type==='ok'?' toast-ok':type==='err'?' toast-err':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3500);}
+function updateSyncButton(){document.getElementById('btn-sync').style.display=getConfig().sheetsUrl?'inline-flex':'none';}
 
 // ─── BADGES ──────────────────────────────────────────────────────────────────
-function statusBadge(s) {
-  if (!s || s === 'wait') return `<span class="badge badge-amber">⏳ รอดำเนินการ</span>`;
-  if (s === 'ชำระเงินแล้ว') return `<span class="badge badge-green">✅ ชำระแล้ว</span>`;
-  if (s === 'ยื่นแล้วรอชำระ') return `<span class="badge badge-teal">📤 รอชำระ</span>`;
-  return `<span class="badge badge-grey">${s}</span>`;
-}
-function docBadge(v) {
-  if (!v || v === '' || v === 'wait') return `<span class="badge badge-amber">รอ</span>`;
-  if (v === 'มาแล้ว' || v.includes('มาแล้ว')) return `<span class="badge badge-green">✓ มาแล้ว</span>`;
-  if (v === 'ไม่มี') return `<span class="badge badge-grey">ไม่มี</span>`;
-  return `<span class="badge badge-grey">${v}</span>`;
-}
-function vatFmt(v) {
-  if (v === '' || v === undefined || v === null) return `<span class="text-sm" style="color:var(--grey-300)">—</span>`;
-  const n = parseFloat(v);
-  if (isNaN(n)) return `<span class="text-sm" style="color:var(--grey-500)">${v}</span>`;
-  const col = n < 0 ? 'color:var(--red)' : 'color:var(--teal)';
-  return `<span style="${col};font-weight:500">${n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;
-}
-function fuBadge(v) {
-  if (!v || v === '') return `<span style="color:var(--grey-300)">—</span>`;
-  if (/\/6[89]/.test(v)) return `<span class="badge badge-green" style="font-size:10px">${v}</span>`;
-  if (v.includes('ยังไม่มา')) return `<span class="badge badge-red" style="font-size:10px">ยังไม่มา</span>`;
-  if (v.includes('อยู่') || v.includes('นัด') || v.includes('ในตะกร้า')) return `<span class="badge badge-amber" style="font-size:10px">${v.substring(0,10)}</span>`;
-  return `<span class="text-sm">${v.substring(0,12)}</span>`;
-}
+function statusBadge(s){if(!s||s==='wait')return`<span class="badge badge-amber">⏳ รอดำเนินการ</span>`;if(s==='ชำระเงินแล้ว')return`<span class="badge badge-green">✅ ชำระแล้ว</span>`;if(s==='ยื่นแล้วรอชำระ')return`<span class="badge badge-teal">📤 รอชำระ</span>`;return`<span class="badge badge-grey">${s}</span>`;}
+function docBadge(v){if(!v||v===''||v==='wait')return`<span class="badge badge-amber">รอ</span>`;if(v==='มาแล้ว'||v.includes('มาแล้ว'))return`<span class="badge badge-green">✓ มาแล้ว</span>`;if(v==='ไม่มี')return`<span class="badge badge-grey">ไม่มี</span>`;return`<span class="badge badge-grey">${v}</span>`;}
+function vatFmt(v){if(v===''||v===undefined||v===null)return`<span class="text-sm" style="color:var(--grey-300)">—</span>`;const n=parseFloat(v);if(isNaN(n))return`<span class="text-sm" style="color:var(--grey-500)">${v}</span>`;return`<span style="${n<0?'color:var(--red)':'color:var(--teal)'};font-weight:500">${n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;}
+function fuBadge(v){if(!v||v==='')return`<span style="color:var(--grey-300)">—</span>`;if(/\/6[89]/.test(v))return`<span class="badge badge-green" style="font-size:10px">${v}</span>`;if(v.includes('ยังไม่มา'))return`<span class="badge badge-red" style="font-size:10px">ยังไม่มา</span>`;if(v.includes('อยู่')||v.includes('นัด')||v.includes('ในตะกร้า'))return`<span class="badge badge-amber" style="font-size:10px">${v.substring(0,10)}</span>`;return`<span class="text-sm">${v.substring(0,12)}</span>`;}
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
-const PAGE_SIZE = 20;
-const titles = {dashboard:'ภาพรวมระบบ',customers:'รายชื่อลูกค้า',tax:'ภาษีหัก ณ ที่จ่าย',vat:'ภพ.30 / VAT',followup:'ติดตามเอกสาร',service:'ค่าบริการ / การเงิน',settings:'ตั้งค่า'};
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const nav = document.querySelector(`[onclick="showPage('${id}')"]`);
-  if (nav) nav.classList.add('active');
-  document.getElementById('page-title').textContent = titles[id] || id;
-  if (id === 'settings') loadConfigUI();
-  const renders = {dashboard:renderDashTable,customers:renderCustomerTable,tax:renderTaxTable,vat:renderVatTable,followup:renderFollowTable,service:renderServiceTable};
-  if (renders[id]) renders[id]();
+const PAGE_SIZE=20;
+const titles={dashboard:'ภาพรวมระบบ',customers:'รายชื่อลูกค้า',tax:'ภาษีหัก ณ ที่จ่าย',vat:'ภพ.30 / VAT',followup:'ติดตามเอกสาร',service:'ค่าบริการ / การเงิน',settings:'ตั้งค่า'};
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const nav=document.querySelector(`[onclick="showPage('${id}')"]`);
+  if(nav)nav.classList.add('active');
+  document.getElementById('page-title').textContent=titles[id]||id;
+  if(id==='settings')loadConfigUI();
+  ({dashboard:renderDashTable,customers:renderCustomerTable,tax:renderTaxTable,vat:renderVatTable,followup:renderFollowTable,service:renderServiceTable}[id]||function(){})();
 }
-
-function loadConfigUI() {
-  const cfg = getConfig();
-  document.getElementById('cfg-sb-url').value = cfg.sbUrl;
-  document.getElementById('cfg-sb-key').value = cfg.sbKey;
-  document.getElementById('cfg-sheets-url').value = cfg.sheetsUrl || '';
-}
-
-function renderAll() {
-  renderDashTable();
-}
+function loadConfigUI(){const cfg=getConfig();document.getElementById('cfg-sb-url').value=cfg.sbUrl;document.getElementById('cfg-sb-key').value=cfg.sbKey;document.getElementById('cfg-sheets-url').value=cfg.sheetsUrl||'';}
+function renderAll(){renderDashTable();}
 
 // ─── DASHBOARD ───────────────────────────────────────────────────────────────
-let dashPage = 1;
-function renderDashTable() {
-  const q = (document.getElementById('dash-search')?.value || '').toLowerCase();
-  const f = document.getElementById('dash-filter')?.value || '';
-  const filtered = records.filter(r =>
-    ((r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q)) &&
-    (!f || r.status === f || (f === 'wait' && (!r.status || r.status === 'wait')))
-  );
-  const pages = Math.ceil(filtered.length / PAGE_SIZE);
-  const slice = filtered.slice((dashPage-1)*PAGE_SIZE, dashPage*PAGE_SIZE);
-  const tbody = document.getElementById('dash-tbody');
-  if (!slice.length) { tbody.innerHTML = `<tr class="empty-row"><td colspan="7">ไม่พบข้อมูล</td></tr>`; }
-  else {
-    tbody.innerHTML = slice.map(r => `
-      <tr>
-        <td class="fw600 text-navy">${r.code||''}</td>
-        <td>${r.name||''}</td>
-        <td>${docBadge(r.doc30)}</td>
-        <td>${vatFmt(r.vat68_12)}</td>
-        <td>${r.accsvc ? `<b>${Number(r.accsvc).toLocaleString()}</b>` : '—'}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td>
-      </tr>`).join('');
-  }
-  document.getElementById('dash-count').textContent = `แสดง ${slice.length} จาก ${filtered.length} รายการ`;
-  renderPages('dash-pages', pages, dashPage, p => { dashPage=p; renderDashTable(); });
-  // stats
-  document.getElementById('stat-total').textContent = records.length;
-  document.getElementById('stat-paid').textContent = records.filter(r => r.status === 'ชำระเงินแล้ว').length;
-  document.getElementById('stat-wait').textContent = records.filter(r => !r.status || r.status === 'wait').length;
-  const missing = records.reduce((a,r) => a + ['fu_13_8','fu_14_8','fu_16_9','fu_14_10','fu_9_12'].filter(k => r[k] === 'ยังไม่มา').length, 0);
-  document.getElementById('stat-missing').textContent = missing;
-  document.getElementById('follow-badge').textContent = records.filter(r => !r.status || r.status === 'wait').length;
+let dashPage=1;
+function renderDashTable(){
+  const q=(document.getElementById('dash-search')?.value||'').toLowerCase();
+  const f=document.getElementById('dash-filter')?.value||'';
+  const filtered=records.filter(r=>((r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q))&&(!f||r.status===f||(f==='wait'&&(!r.status||r.status==='wait'))));
+  const pages=Math.ceil(filtered.length/PAGE_SIZE);
+  const slice=filtered.slice((dashPage-1)*PAGE_SIZE,dashPage*PAGE_SIZE);
+  const tbody=document.getElementById('dash-tbody');
+  tbody.innerHTML=slice.length?slice.map(r=>`<tr><td class="fw600 text-navy">${r.code||''}</td><td>${r.name||''}</td><td>${docBadge(r.doc30)}</td><td>${vatFmt(r.vat68_12)}</td><td>${r.accsvc?`<b>${Number(r.accsvc).toLocaleString()}</b>`:'—'}</td><td>${statusBadge(r.status)}</td><td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td></tr>`).join(''):`<tr class="empty-row"><td colspan="7">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('dash-count').textContent=`แสดง ${slice.length} จาก ${filtered.length} รายการ`;
+  renderPages('dash-pages',pages,dashPage,p=>{dashPage=p;renderDashTable();});
+  document.getElementById('stat-total').textContent=records.length;
+  document.getElementById('stat-paid').textContent=records.filter(r=>r.status==='ชำระเงินแล้ว').length;
+  document.getElementById('stat-wait').textContent=records.filter(r=>!r.status||r.status==='wait').length;
+  document.getElementById('stat-missing').textContent=records.reduce((a,r)=>a+['fu_13_8','fu_14_8','fu_16_9','fu_14_10','fu_9_12'].filter(k=>r[k]==='ยังไม่มา').length,0);
+  document.getElementById('follow-badge').textContent=records.filter(r=>!r.status||r.status==='wait').length;
 }
 
 // ─── CUSTOMERS ───────────────────────────────────────────────────────────────
-let custPage = 1;
-function renderCustomerTable() {
-  const q = (document.getElementById('cust-search')?.value || '').toLowerCase();
-  const type = document.getElementById('cust-type')?.value || '';
-  const filtered = records.filter(r => {
-    const mq = !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q) || (r.taxid||'').includes(q);
-    const mt = !type || (r.code||'').startsWith(type);
-    return mq && mt;
-  });
-  const pages = Math.ceil(filtered.length / PAGE_SIZE);
-  const slice = filtered.slice((custPage-1)*PAGE_SIZE, custPage*PAGE_SIZE);
-  document.getElementById('cust-tbody').innerHTML = slice.length
-    ? slice.map(r => `
-      <tr>
-        <td class="fw600 text-teal">${r.code||''}</td>
-        <td class="text-sm" style="color:var(--grey-500)">${r.taxid||'—'}</td>
-        <td style="max-width:240px">${r.name||''}</td>
-        <td>${docBadge(r.hakna)}</td>
-        <td>${docBadge(r.doc30)}</td>
-        <td>${r.accsvc ? `${Number(r.accsvc).toLocaleString()} ฿` : '—'}</td>
-        <td>${r.soc ? `${Number(r.soc).toLocaleString()} ฿` : '—'}</td>
-        <td class="text-sm" style="color:var(--grey-500);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.note||'—'}</td>
-        <td><button class="action-btn" onclick="showDetail('${r.id}')">รายละเอียด</button></td>
-      </tr>`).join('')
-    : `<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
-  document.getElementById('cust-count').textContent = `${filtered.length} รายการ`;
-  renderPages('cust-pages', pages, custPage, p => { custPage=p; renderCustomerTable(); });
+let custPage=1;
+function renderCustomerTable(){
+  const q=(document.getElementById('cust-search')?.value||'').toLowerCase();
+  const type=document.getElementById('cust-type')?.value||'';
+  const filtered=records.filter(r=>(!q||(r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q)||(r.taxid||'').includes(q))&&(!type||(r.code||'').startsWith(type)));
+  const pages=Math.ceil(filtered.length/PAGE_SIZE);
+  const slice=filtered.slice((custPage-1)*PAGE_SIZE,custPage*PAGE_SIZE);
+  document.getElementById('cust-tbody').innerHTML=slice.length?slice.map(r=>`<tr><td class="fw600 text-teal">${r.code||''}</td><td class="text-sm" style="color:var(--grey-500)">${r.taxid||'—'}</td><td style="max-width:240px">${r.name||''}</td><td>${docBadge(r.hakna)}</td><td>${docBadge(r.doc30)}</td><td>${r.accsvc?`${Number(r.accsvc).toLocaleString()} ฿`:'—'}</td><td>${r.soc?`${Number(r.soc).toLocaleString()} ฿`:'—'}</td><td class="text-sm" style="color:var(--grey-500);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.note||'—'}</td><td><button class="action-btn" onclick="showDetail('${r.id}')">รายละเอียด</button></td></tr>`).join(''):`<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('cust-count').textContent=`${filtered.length} รายการ`;
+  renderPages('cust-pages',pages,custPage,p=>{custPage=p;renderCustomerTable();});
 }
 
 // ─── TAX ─────────────────────────────────────────────────────────────────────
-let taxTab = 'pnd1';
-const taxLabels = {pnd1:'ภ.ง.ด.1',pnd3p:'ภ.ง.ด.3 เราจ่าย',pnd3c:'ภ.ง.ด.3 เก็บลูกค้า',pnd53p:'ภ.ง.ด.53 เราจ่าย',pnd53c:'ภ.ง.ด.53 เก็บลูกค้า',filed:'ยื่นแบบ'};
-function setTaxTab(t, el) {
-  taxTab = t;
-  document.querySelectorAll('#page-tax .tab').forEach(x => x.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tax-col').textContent = taxLabels[t];
-  renderTaxTable();
-}
-function renderTaxTable() {
-  const q = (document.getElementById('tax-search')?.value || '').toLowerCase();
-  const filtered = records.filter(r => {
-    const v = r[taxTab];
-    return v !== '' && v !== undefined && v !== null && v !== 'wait' &&
-      (!q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
-  });
-  document.getElementById('tax-tbody').innerHTML = filtered.length
-    ? filtered.map(r => `
-      <tr>
-        <td class="fw600">${r.code||''}</td>
-        <td>${r.name||''}</td>
-        <td>${vatFmt(r[taxTab])}</td>
-        <td>${statusBadge(r.status)}</td>
-        <td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td>
-      </tr>`).join('')
-    : `<tr class="empty-row"><td colspan="5">ไม่พบข้อมูล</td></tr>`;
-  document.getElementById('tax-count').textContent = `${filtered.length} รายการ`;
+let taxTab='pnd1';
+const taxLabels={pnd1:'ภ.ง.ด.1',pnd3p:'ภ.ง.ด.3 เราจ่าย',pnd3c:'ภ.ง.ด.3 เก็บลูกค้า',pnd53p:'ภ.ง.ด.53 เราจ่าย',pnd53c:'ภ.ง.ด.53 เก็บลูกค้า',filed:'ยื่นแบบ'};
+function setTaxTab(t,el){taxTab=t;document.querySelectorAll('#page-tax .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('tax-col').textContent=taxLabels[t];renderTaxTable();}
+function renderTaxTable(){
+  const q=(document.getElementById('tax-search')?.value||'').toLowerCase();
+  const filtered=records.filter(r=>{const v=r[taxTab];return v!==''&&v!==undefined&&v!==null&&v!=='wait'&&(!q||(r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q));});
+  document.getElementById('tax-tbody').innerHTML=filtered.length?filtered.map(r=>`<tr><td class="fw600">${r.code||''}</td><td>${r.name||''}</td><td>${vatFmt(r[taxTab])}</td><td>${statusBadge(r.status)}</td><td><button class="action-btn" onclick="showDetail('${r.id}')">ดู</button></td></tr>`).join(''):`<tr class="empty-row"><td colspan="5">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('tax-count').textContent=`${filtered.length} รายการ`;
 }
 
 // ─── VAT ─────────────────────────────────────────────────────────────────────
-let vatPage = 1;
-function renderVatTable() {
-  const q = (document.getElementById('vat-search')?.value || '').toLowerCase();
-  const filtered = records.filter(r => !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
-  const pages = Math.ceil(filtered.length / PAGE_SIZE);
-  const slice = filtered.slice((vatPage-1)*PAGE_SIZE, vatPage*PAGE_SIZE);
-  document.getElementById('vat-tbody').innerHTML = slice.length
-    ? slice.map(r => `
-      <tr>
-        <td class="fw600">${r.code||''}</td>
-        <td>${r.name||''}</td>
-        <td>${vatFmt(r.vat67_6)}</td>
-        <td>${vatFmt(r.vat68_3)}</td>
-        <td>${vatFmt(r.vat68_11)}</td>
-        <td>${vatFmt(r.vat68_12)}</td>
-      </tr>`).join('')
-    : `<tr class="empty-row"><td colspan="6">ไม่พบข้อมูล</td></tr>`;
-  document.getElementById('vat-count').textContent = `${filtered.length} รายการ`;
-  renderPages('vat-pages', pages, vatPage, p => { vatPage=p; renderVatTable(); });
-  ['vat67_6','vat68_3','vat68_11'].forEach((k,i) => {
-    const ids = ['vat-67-6','vat-68-3','vat-68-11'];
-    const total = records.filter(r => parseFloat(r[k])).reduce((a,r) => a + parseFloat(r[k]), 0);
-    document.getElementById(ids[i]).textContent = total.toLocaleString('th-TH',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' ฿';
-  });
+let vatPage=1;
+function renderVatTable(){
+  const q=(document.getElementById('vat-search')?.value||'').toLowerCase();
+  const filtered=records.filter(r=>!q||(r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q));
+  const pages=Math.ceil(filtered.length/PAGE_SIZE);
+  const slice=filtered.slice((vatPage-1)*PAGE_SIZE,vatPage*PAGE_SIZE);
+  document.getElementById('vat-tbody').innerHTML=slice.length?slice.map(r=>`<tr><td class="fw600">${r.code||''}</td><td>${r.name||''}</td><td>${vatFmt(r.vat67_6)}</td><td>${vatFmt(r.vat68_3)}</td><td>${vatFmt(r.vat68_11)}</td><td>${vatFmt(r.vat68_12)}</td></tr>`).join(''):`<tr class="empty-row"><td colspan="6">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('vat-count').textContent=`${filtered.length} รายการ`;
+  renderPages('vat-pages',pages,vatPage,p=>{vatPage=p;renderVatTable();});
+  ['vat67_6','vat68_3','vat68_11'].forEach((k,i)=>{const ids=['vat-67-6','vat-68-3','vat-68-11'];const total=records.filter(r=>parseFloat(r[k])).reduce((a,r)=>a+parseFloat(r[k]),0);document.getElementById(ids[i]).textContent=total.toLocaleString('th-TH',{minimumFractionDigits:0})+' ฿';});
 }
 
 // ─── FOLLOWUP ────────────────────────────────────────────────────────────────
-let fuPage = 1;
-function renderFollowTable() {
-  const q = (document.getElementById('fu-search')?.value || '').toLowerCase();
-  const filtered = records.filter(r => !q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q));
-  const pages = Math.ceil(filtered.length / PAGE_SIZE);
-  const slice = filtered.slice((fuPage-1)*PAGE_SIZE, fuPage*PAGE_SIZE);
-  document.getElementById('fu-tbody').innerHTML = slice.length
-    ? slice.map(r => `
-      <tr>
-        <td class="fw600">${r.code||''}</td>
-        <td style="max-width:200px">${r.name||''}</td>
-        <td>${fuBadge(r.fu_13_8)}</td>
-        <td>${fuBadge(r.fu_14_8)}</td>
-        <td>${fuBadge(r.fu_16_9)}</td>
-        <td>${fuBadge(r.fu_14_10)}</td>
-        <td>${fuBadge(r.fu_9_12)}</td>
-        <td>${fuBadge(r.fu_16_1)}</td>
-        <td>${fuBadge(r.fu_20_1)}</td>
-      </tr>`).join('')
-    : `<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
-  document.getElementById('fu-count').textContent = `${filtered.length} รายการ`;
-  renderPages('fu-pages', pages, fuPage, p => { fuPage=p; renderFollowTable(); });
+let fuPage=1;
+function renderFollowTable(){
+  const q=(document.getElementById('fu-search')?.value||'').toLowerCase();
+  const filtered=records.filter(r=>!q||(r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q));
+  const pages=Math.ceil(filtered.length/PAGE_SIZE);
+  const slice=filtered.slice((fuPage-1)*PAGE_SIZE,fuPage*PAGE_SIZE);
+  document.getElementById('fu-tbody').innerHTML=slice.length?slice.map(r=>`<tr><td class="fw600">${r.code||''}</td><td style="max-width:200px">${r.name||''}</td><td>${fuBadge(r.fu_13_8)}</td><td>${fuBadge(r.fu_14_8)}</td><td>${fuBadge(r.fu_16_9)}</td><td>${fuBadge(r.fu_14_10)}</td><td>${fuBadge(r.fu_9_12)}</td><td>${fuBadge(r.fu_16_1)}</td><td>${fuBadge(r.fu_20_1)}</td></tr>`).join(''):`<tr class="empty-row"><td colspan="9">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('fu-count').textContent=`${filtered.length} รายการ`;
+  renderPages('fu-pages',pages,fuPage,p=>{fuPage=p;renderFollowTable();});
 }
 
 // ─── SERVICE ─────────────────────────────────────────────────────────────────
-let svcPage = 1;
-function renderServiceTable() {
-  const q = (document.getElementById('svc-search')?.value || '').toLowerCase();
-  const f = document.getElementById('svc-filter')?.value || '';
-  const filtered = records.filter(r =>
-    (!q || (r.name||'').toLowerCase().includes(q) || (r.code||'').toLowerCase().includes(q)) &&
-    (!f || r.status === f || (f === 'wait' && (!r.status || r.status === 'wait')))
-  );
-  const pages = Math.ceil(filtered.length / PAGE_SIZE);
-  const slice = filtered.slice((svcPage-1)*PAGE_SIZE, svcPage*PAGE_SIZE);
-  document.getElementById('svc-tbody').innerHTML = slice.length
-    ? slice.map(r => `
-      <tr>
-        <td class="fw600">${r.code||''}</td>
-        <td>${r.name||''}</td>
-        <td>${r.accsvc ? `<b>${Number(r.accsvc).toLocaleString()}</b>` : '—'}</td>
-        <td>${r.vatfile||'—'}</td>
-        <td>${r.sps||'—'}</td>
-        <td>${r.soc ? Number(r.soc).toLocaleString() : '—'}</td>
-        <td>${r.pack ? `<span class="badge ${r.pack==='แพ็คแล้ว'?'badge-green':'badge-amber'}">${r.pack}</span>` : '—'}</td>
-        <td>${r.wage && r.wage !== 'wait' ? r.wage : '—'}</td>
-        <td>${r.expense && r.expense !== 'wait' ? r.expense : '—'}</td>
-        <td>${statusBadge(r.status)}</td>
-      </tr>`).join('')
-    : `<tr class="empty-row"><td colspan="10">ไม่พบข้อมูล</td></tr>`;
-  document.getElementById('svc-count').textContent = `${filtered.length} รายการ`;
-  renderPages('svc-pages', pages, svcPage, p => { svcPage=p; renderServiceTable(); });
-  document.getElementById('svc-packed').textContent = records.filter(r => r.pack === 'แพ็คแล้ว').length;
-  document.getElementById('svc-paid').textContent = records.filter(r => r.status === 'ชำระเงินแล้ว').length;
-  document.getElementById('svc-pending').textContent = records.filter(r => r.status === 'ยื่นแล้วรอชำระ').length;
+let svcPage=1;
+function renderServiceTable(){
+  const q=(document.getElementById('svc-search')?.value||'').toLowerCase();
+  const f=document.getElementById('svc-filter')?.value||'';
+  const filtered=records.filter(r=>(!q||(r.name||'').toLowerCase().includes(q)||(r.code||'').toLowerCase().includes(q))&&(!f||r.status===f||(f==='wait'&&(!r.status||r.status==='wait'))));
+  const pages=Math.ceil(filtered.length/PAGE_SIZE);
+  const slice=filtered.slice((svcPage-1)*PAGE_SIZE,svcPage*PAGE_SIZE);
+  document.getElementById('svc-tbody').innerHTML=slice.length?slice.map(r=>`<tr><td class="fw600">${r.code||''}</td><td>${r.name||''}</td><td>${r.accsvc?`<b>${Number(r.accsvc).toLocaleString()}</b>`:'—'}</td><td>${r.vatfile||'—'}</td><td>${r.sps||'—'}</td><td>${r.soc?Number(r.soc).toLocaleString():'—'}</td><td>${r.pack?`<span class="badge ${r.pack==='แพ็คแล้ว'?'badge-green':'badge-amber'}">${r.pack}</span>`:'—'}</td><td>${r.wage&&r.wage!=='wait'?r.wage:'—'}</td><td>${r.expense&&r.expense!=='wait'?r.expense:'—'}</td><td>${statusBadge(r.status)}</td></tr>`).join(''):`<tr class="empty-row"><td colspan="10">ไม่พบข้อมูล</td></tr>`;
+  document.getElementById('svc-count').textContent=`${filtered.length} รายการ`;
+  renderPages('svc-pages',pages,svcPage,p=>{svcPage=p;renderServiceTable();});
+  document.getElementById('svc-packed').textContent=records.filter(r=>r.pack==='แพ็คแล้ว').length;
+  document.getElementById('svc-paid').textContent=records.filter(r=>r.status==='ชำระเงินแล้ว').length;
+  document.getElementById('svc-pending').textContent=records.filter(r=>r.status==='ยื่นแล้วรอชำระ').length;
 }
 
 // ─── PAGES ───────────────────────────────────────────────────────────────────
-function renderPages(id, total, current, cb) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  let html = '';
-  const max = Math.min(total, 8);
-  for (let i = 1; i <= max; i++) {
-    html += `<button class="page-btn ${i===current?'active':''}" onclick="(${cb.toString()})(${i})">${i}</button>`;
-  }
-  el.innerHTML = html;
+function renderPages(id,total,current,cb){
+  const el=document.getElementById(id); if(!el)return;
+  let html='';const max=Math.min(total,8);
+  for(let i=1;i<=max;i++) html+=`<button class="page-btn ${i===current?'active':''}" onclick="(${cb.toString()})(${i})">${i}</button>`;
+  el.innerHTML=html;
 }
 
-// ─── DETAIL MODAL ─────────────────────────────────────────────────────────────
-function showDetail(id) {
-  const r = records.find(x => x.id === id);
-  if (!r) return;
-  document.getElementById('detail-title').textContent = `${r.code} — ${r.name}`;
-  document.getElementById('detail-body').innerHTML = `
+// ─── DETAIL ──────────────────────────────────────────────────────────────────
+function showDetail(id){
+  const r=records.find(x=>x.id===id); if(!r)return;
+  document.getElementById('detail-title').textContent=`${r.code} — ${r.name}`;
+  document.getElementById('detail-body').innerHTML=`
     <div class="detail-grid mb4">
       <div class="detail-item"><div class="detail-label">รหัส</div><div class="detail-value">${r.code||'—'}</div></div>
       <div class="detail-item"><div class="detail-label">เลขทะเบียน</div><div class="detail-value">${r.taxid||'—'}</div></div>
@@ -951,101 +721,58 @@ function showDetail(id) {
       <div class="detail-item"><div class="detail-label">ยื่นแบบ</div><div class="detail-value">${r.filed||'—'}</div></div>
     </div>
     <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 8px">ภพ.30 / VAT</div>
-    <table class="vat-table mt12">
-      <thead><tr><th>งวด</th><th class="text-right">ยอด VAT</th></tr></thead>
-      <tbody>
-        <tr><td>ภพ.30 6/67</td><td class="text-right">${vatFmt(r.vat67_6)}</td></tr>
-        <tr><td>ภพ.30 3/68</td><td class="text-right">${vatFmt(r.vat68_3)}</td></tr>
-        <tr><td>ภพ.30 11/68</td><td class="text-right">${vatFmt(r.vat68_11)}</td></tr>
-        <tr><td>ภพ.30 12/68</td><td class="text-right">${vatFmt(r.vat68_12)}</td></tr>
-      </tbody>
-    </table>
+    <table class="vat-table mt12"><thead><tr><th>งวด</th><th class="text-right">ยอด VAT</th></tr></thead><tbody>
+      <tr><td>ภพ.30 6/67</td><td class="text-right">${vatFmt(r.vat67_6)}</td></tr>
+      <tr><td>ภพ.30 3/68</td><td class="text-right">${vatFmt(r.vat68_3)}</td></tr>
+      <tr><td>ภพ.30 11/68</td><td class="text-right">${vatFmt(r.vat68_11)}</td></tr>
+      <tr><td>ภพ.30 12/68</td><td class="text-right">${vatFmt(r.vat68_12)}</td></tr>
+    </tbody></table>
     <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:14px 0 8px">ค่าบริการ / การเงิน</div>
     <div class="detail-grid mb4">
-      <div class="detail-item"><div class="detail-label">ค่าทำบัญชี</div><div class="detail-value">${r.accsvc ? Number(r.accsvc).toLocaleString()+' ฿' : '—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ค่าทำบัญชี</div><div class="detail-value">${r.accsvc?Number(r.accsvc).toLocaleString()+' ฿':'—'}</div></div>
       <div class="detail-item"><div class="detail-label">ยื่น ภ.พ.30</div><div class="detail-value">${r.vatfile||'—'}</div></div>
       <div class="detail-item"><div class="detail-label">สปส</div><div class="detail-value">${r.sps||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">ประกันสังคม</div><div class="detail-value">${r.soc ? Number(r.soc).toLocaleString()+' ฿' : '—'}</div></div>
+      <div class="detail-item"><div class="detail-label">ประกันสังคม</div><div class="detail-value">${r.soc?Number(r.soc).toLocaleString()+' ฿':'—'}</div></div>
       <div class="detail-item"><div class="detail-label">แพ็คเอกสาร</div><div class="detail-value">${r.pack||'—'}</div></div>
     </div>
     <div style="font-weight:700;color:var(--teal);font-size:12px;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 8px">สถานะ</div>
     ${statusBadge(r.status)}
-    ${r.note ? `<div class="alert alert-warn mt12">📝 ${r.note}</div>` : ''}
+    ${r.note?`<div class="alert alert-warn mt12">📝 ${r.note}</div>`:''}
   `;
-  document.getElementById('detail-edit-btn').onclick = () => { closeModal('detail-modal'); openEditModal(id); };
-  document.getElementById('detail-del-btn').onclick = () => confirmDelete(id, r.name);
+  document.getElementById('detail-edit-btn').onclick=()=>{closeModal('detail-modal');openEditModal(id);};
+  document.getElementById('detail-del-btn').onclick=()=>confirmDelete(id,r.name);
   document.getElementById('detail-modal').classList.add('open');
 }
-
-function confirmDelete(id, name) {
-  if (!confirm(`ลบ "${name}" ออกจากระบบ?\n\nข้อมูลจะถูกลบจาก Supabase ถาวร`)) return;
+function confirmDelete(id,name){
+  if(!confirm(`ลบ "${name}" ออกจากระบบ?\n\nข้อมูลจะถูกลบจาก Supabase ถาวร`))return;
   closeModal('detail-modal');
-  deleteRecord(id)
-    .then(() => {
-      records = records.filter(r => r.id !== id);
-      toast('ลบข้อมูลแล้ว ✓');
-      renderAll();
-    })
-    .catch(e => toast('ลบไม่ได้: ' + e.message, 'err'));
+  deleteRecord(id).then(()=>{records=records.filter(r=>r.id!==id);toast('ลบข้อมูลแล้ว ✓');renderAll();}).catch(e=>toast('ลบไม่ได้: '+e.message,'err'));
 }
 
 // ─── ADD/EDIT ─────────────────────────────────────────────────────────────────
-let editId = null;
-const FIELD_MAP = {code:'f-code',taxid:'f-taxid',name:'f-name',hakna:'f-hakna',doc30:'f-doc30',pnd1:'f-pnd1',pnd3p:'f-pnd3p',pnd3c:'f-pnd3c',pnd53p:'f-pnd53p',pnd53c:'f-pnd53c',filed:'f-filed',vat67_6:'f-vat67',vat68_3:'f-vat68m3',vat68_11:'f-vat68m11',vat68_12:'f-vat68m12',accsvc:'f-accsvc',vatfile:'f-vatfile',sps:'f-sps',soc:'f-soc',pack:'f-pack',wage:'f-wage',expense:'f-expense',stock:'f-stock',note:'f-note',status:'f-status'};
-
-function openAddModal() {
-  editId = null;
-  document.getElementById('modal-title').textContent = 'บันทึกเอกสารใหม่';
-  Object.values(FIELD_MAP).forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-  document.getElementById('f-status').value = 'wait';
-  document.getElementById('add-modal').classList.add('open');
-}
-function openEditModal(id) {
-  editId = id;
-  const r = records.find(x => x.id === id);
-  if (!r) return;
-  document.getElementById('modal-title').textContent = `แก้ไข — ${r.code}`;
-  Object.entries(FIELD_MAP).forEach(([k, fid]) => {
-    const el = document.getElementById(fid);
-    if (el) el.value = r[k] || '';
-  });
-  document.getElementById('add-modal').classList.add('open');
+let editId=null;
+const FIELD_MAP={code:'f-code',taxid:'f-taxid',name:'f-name',hakna:'f-hakna',doc30:'f-doc30',pnd1:'f-pnd1',pnd3p:'f-pnd3p',pnd3c:'f-pnd3c',pnd53p:'f-pnd53p',pnd53c:'f-pnd53c',filed:'f-filed',vat67_6:'f-vat67',vat68_3:'f-vat68m3',vat68_11:'f-vat68m11',vat68_12:'f-vat68m12',accsvc:'f-accsvc',vatfile:'f-vatfile',sps:'f-sps',soc:'f-soc',pack:'f-pack',wage:'f-wage',expense:'f-expense',stock:'f-stock',note:'f-note',status:'f-status'};
+function openAddModal(){editId=null;document.getElementById('modal-title').textContent='บันทึกเอกสารใหม่';Object.values(FIELD_MAP).forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-status').value='wait';document.getElementById('add-modal').classList.add('open');}
+function openEditModal(id){editId=id;const r=records.find(x=>x.id===id);if(!r)return;document.getElementById('modal-title').textContent=`แก้ไข — ${r.code}`;Object.entries(FIELD_MAP).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=r[k]||'';});document.getElementById('add-modal').classList.add('open');}
+async function saveRecord(){
+  const get=id=>(document.getElementById(id)||{}).value||'';
+  const rec={};Object.entries(FIELD_MAP).forEach(([k,fid])=>{rec[k]=get(fid)||null;});
+  if(!rec.code||!rec.name){toast('กรุณากรอกรหัสและชื่อลูกค้า','err');return;}
+  if(!rec.status)rec.status='wait';
+  if(editId)rec.id=editId;
+  const btn=document.getElementById('btn-save-record');btn.disabled=true;btn.textContent='⏳ กำลังบันทึก...';
+  try{
+    const result=await upsertRecord(rec);
+    const saved=Array.isArray(result)?result[0]:result;
+    if(editId){const idx=records.findIndex(r=>r.id===editId);if(idx>=0)records[idx]=saved;}else{records.push(saved);}
+    closeModal('add-modal');toast('บันทึกแล้ว ✓','ok');renderAll();
+  }catch(e){toast('บันทึกไม่ได้: '+e.message,'err');}
+  finally{btn.disabled=false;btn.textContent='💾 บันทึก';}
 }
 
-async function saveRecord() {
-  const get = id => (document.getElementById(id)||{}).value || '';
-  const rec = {};
-  Object.entries(FIELD_MAP).forEach(([k, fid]) => { rec[k] = get(fid) || null; });
-  if (!rec.code || !rec.name) { toast('กรุณากรอกรหัสและชื่อลูกค้า', 'err'); return; }
-  if (!rec.status) rec.status = 'wait';
-  if (editId) rec.id = editId;
-
-  const btn = document.getElementById('btn-save-record');
-  btn.disabled = true;
-  btn.textContent = '⏳ กำลังบันทึก...';
-  try {
-    const result = await upsertRecord(rec);
-    const saved = Array.isArray(result) ? result[0] : result;
-    if (editId) {
-      const idx = records.findIndex(r => r.id === editId);
-      if (idx >= 0) records[idx] = saved;
-    } else {
-      records.push(saved);
-    }
-    closeModal('add-modal');
-    toast('บันทึกแล้ว ✓', 'ok');
-    renderAll();
-  } catch (e) {
-    toast('บันทึกไม่ได้: ' + e.message, 'err');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '💾 บันทึก';
-  }
-}
-
-// ─── MODAL ────────────────────────────────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 updateSyncButton();
